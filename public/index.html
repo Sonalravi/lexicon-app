@@ -7,6 +7,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com"/>
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;0,700;1,500&family=Plus+Jakarta+Sans:wght@300;400;500;600&display=swap" rel="stylesheet"/>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/7.0.0/fuse.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
 <style>
 /* ═══════════════════════════════════════════════════
    LEXICON — Design System
@@ -24,6 +25,7 @@
   --t-base: 0.8125rem; /* 13px — body, buttons, form inputs */
   --t-md:   0.875rem;  /* 14px — card titles, subtitles */
   --t-lg:   0.9375rem; /* 15px — emphasized body, quiz Q */
+  --t-xl:   1.125rem;  /* 18px — modal titles, quiz headings */
 
   /* ── Radius ── */
   --r-sm: 6px;
@@ -81,7 +83,7 @@ button,.card,.ch-btn,.sa-chip,.qz-opt,.audio-btn,.drop-zone{touch-action:manipul
 .ch-btn.active .ch-num{border-color:rgba(255,255,255,.6);color:#fff}
 .ch-btn.done .ch-num{background:var(--green);border-color:var(--green);color:#fff}
 .ch-info{flex:1;min-width:0}
-.ch-title{font-size:var(--t-sm);font-weight:500;color:rgba(255,255,255,.65);line-height:1.35;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.ch-title{font-size:var(--t-sm);font-weight:500;color:rgba(255,255,255,.65);line-height:1.35}
 .ch-btn.active .ch-title{color:rgba(255,255,255,.9)}
 .ch-prog{font-size:var(--t-xs);color:rgba(255,255,255,.35);margin-top:2px}
 .ch-lock{font-size:var(--t-xs);color:rgba(255,255,255,.2);flex-shrink:0}
@@ -124,20 +126,22 @@ button,.card,.ch-btn,.sa-chip,.qz-opt,.audio-btn,.drop-zone{touch-action:manipul
 /* ═══════════════════════════════════════════════════
    TERM CARDS
    ═══════════════════════════════════════════════════ */
-.card{background:var(--surface);border:1px solid var(--border);border-radius:var(--r-lg);margin-bottom:8px;cursor:pointer;transition:border-color .12s,box-shadow .12s}
+.card{background:var(--surface);border:1px solid var(--border);border-radius:var(--r-lg);margin-bottom:8px;transition:border-color .12s,box-shadow .12s}
 .card:hover{border-color:var(--border2);box-shadow:0 2px 10px rgba(0,0,0,.04)}
-.card:focus-within{border-color:var(--border2);box-shadow:0 2px 10px rgba(0,0,0,.04)}
 .card.open{border-color:var(--border2);box-shadow:0 4px 16px rgba(0,0,0,.06)}
-.card-head{padding:.75rem 1rem;display:flex;align-items:center;gap:.5rem}
+.card-top{display:flex;align-items:center}
+.card-head{padding:.75rem .5rem .75rem 1rem;display:flex;align-items:center;gap:.5rem;flex:1;min-width:0;cursor:pointer;border-radius:var(--r-lg)}
+.card-head:focus-visible{outline:2px solid var(--accent);outline-offset:-2px}
+.card-actions{display:flex;align-items:center;gap:6px;padding-right:1rem;flex-shrink:0}
 .card-name{font-size:var(--t-md);font-weight:600;color:var(--ink);flex:1;line-height:1.35}
 .user-dot{display:inline-block;width:6px;height:6px;border-radius:50%;background:var(--accent);margin-left:6px;vertical-align:middle}
 .card-right{display:flex;align-items:center;gap:6px;flex-shrink:0}
 .level-chip{font-size:var(--t-xs);color:var(--ink3);font-weight:500;white-space:nowrap;background:var(--bg);padding:2px 8px;border-radius:var(--r-pill);border:1px solid var(--border)}
 .audio-btn{width:32px;height:32px;border-radius:50%;background:var(--bg);border:1px solid var(--border);cursor:pointer;color:var(--ink3);font-size:var(--t-xs);display:flex;align-items:center;justify-content:center;transition:all .12s;flex-shrink:0}
 .audio-btn:hover{background:var(--border);color:var(--ink);border-color:var(--border2)}
-.audio-btn.playing{background:var(--accent);color:#fff;border-color:var(--accent)}
+.audio-btn.playing{background:var(--ink);color:#fff;border-color:var(--ink)}
 .audio-btn:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
-.chev{font-size:var(--t-xs);color:var(--ink3);transition:transform .2s}
+.chev{font-size:var(--t-sm);color:var(--ink3);transition:transform .2s;width:24px;height:24px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
 .card.open .chev{transform:rotate(180deg)}
 
 /* ── Card body ── */
@@ -173,7 +177,7 @@ button,.card,.ch-btn,.sa-chip,.qz-opt,.audio-btn,.drop-zone{touch-action:manipul
 /* ═══════════════════════════════════════════════════
    MODALS
    ═══════════════════════════════════════════════════ */
-.overlay{position:fixed;inset:0;background:rgba(8,6,4,.72);z-index:100;display:none;align-items:center;justify-content:center;backdrop-filter:blur(3px)}
+.overlay{position:fixed;inset:0;background:rgba(8,6,4,.72);z-index:200;display:none;align-items:center;justify-content:center;backdrop-filter:blur(3px)}
 .overlay.open{display:flex}
 .modal{background:var(--surface);border-radius:var(--r-xl);padding:1.75rem;width:min(520px,94vw);max-height:90vh;overflow-y:auto;position:relative;box-shadow:0 24px 60px rgba(0,0,0,.3)}
 .modal h2{font-family:'Playfair Display',serif;font-size:var(--t-xl);font-weight:700;margin-bottom:4px}
@@ -231,25 +235,31 @@ button,.card,.ch-btn,.sa-chip,.qz-opt,.audio-btn,.drop-zone{touch-action:manipul
 /* ═══════════════════════════════════════════════════
    QUIZ
    ═══════════════════════════════════════════════════ */
-.qz-hdr{display:flex;align-items:center;justify-content:space-between;margin-bottom:1.25rem}
+.qz-hdr{display:flex;align-items:center;justify-content:space-between;margin-bottom:.75rem}
 .qz-title{font-family:'Playfair Display',serif;font-size:var(--t-xl);font-weight:700}
-.qz-score{font-size:var(--t-sm);font-weight:600;color:var(--ink2)}
-.qz-bar{height:4px;background:var(--bg);border-radius:var(--r-pill);margin-bottom:1.5rem;overflow:hidden}
+.qz-close{width:32px;height:32px;border-radius:50%;background:var(--bg);border:1px solid var(--border);cursor:pointer;font-size:var(--t-base);color:var(--ink2);display:flex;align-items:center;justify-content:center;transition:all .12s;flex-shrink:0}
+.qz-close:hover{background:var(--border);border-color:var(--border2)}
+.qz-close:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.qz-progress{font-size:var(--t-sm);color:var(--ink2);margin-bottom:.5rem;display:flex;justify-content:space-between}
+.qz-bar{height:4px;background:var(--bg);border-radius:var(--r-pill);margin-bottom:1.25rem;overflow:hidden}
 .qz-fill{height:100%;background:var(--accent);border-radius:var(--r-pill);transition:width .3s ease}
 .qz-tag{font-size:var(--t-xs);font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--ink3);margin-bottom:.5rem}
-.qz-q{font-size:var(--t-lg);font-weight:500;color:var(--ink);line-height:1.65;margin-bottom:1.25rem;min-height:50px}
+.qz-q{font-size:var(--t-lg);font-weight:500;color:var(--ink);line-height:1.65;margin-bottom:1.25rem;min-height:40px}
 .qz-opts{display:flex;flex-direction:column;gap:.5rem}
-.qz-opt{padding:.75rem 1rem;border:1.5px solid var(--border);border-radius:var(--r-lg);font-size:var(--t-base);color:var(--ink);cursor:pointer;background:var(--surface);text-align:left;transition:all .12s}
+.qz-opt{padding:.75rem 1rem;border:1.5px solid var(--border);border-radius:var(--r-lg);font-size:var(--t-base);color:var(--ink);cursor:pointer;background:var(--surface);text-align:left;transition:all .12s;line-height:1.5}
 .qz-opt:hover:not(:disabled){border-color:var(--border2);background:var(--bg)}
 .qz-opt.correct{border-color:var(--green);background:#F0FDF4;color:#065F46}
 .qz-opt.wrong{border-color:var(--red);background:#FEF2F2;color:#991B1B}
+.qz-opt.correct::before{content:'✓ ';font-weight:700}
+.qz-opt.wrong::before{content:'✗ ';font-weight:700}
 .qz-opt:disabled{cursor:default}
 .qz-opt:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
 .qz-next{display:flex;justify-content:flex-end;margin-top:1rem}
 .qz-end{text-align:center;padding:1.25rem 0}
 .qz-emoji{font-size:44px;margin-bottom:.5rem}
 .qz-end-t{font-family:'Playfair Display',serif;font-size:var(--t-xl);font-weight:700;margin-bottom:.5rem}
-.qz-end-s{font-size:var(--t-base);color:var(--ink2);margin-bottom:1.25rem}
+.qz-end-s{font-size:var(--t-base);color:var(--ink2);margin-bottom:1.25rem;line-height:1.6}
+.qz-end-actions{display:flex;gap:.75rem;justify-content:center;flex-wrap:wrap}
 .xp-pill{display:inline-block;background:#FEF3C7;color:#92400E;font-size:var(--t-sm);font-weight:700;padding:6px 16px;border-radius:var(--r-pill);margin-bottom:1rem}
 
 /* ── XP toast ── */
@@ -281,6 +291,10 @@ button,.card,.ch-btn,.sa-chip,.qz-opt,.audio-btn,.drop-zone{touch-action:manipul
 .splash-how-list{list-style:none;display:flex;flex-direction:column;gap:.5rem}
 .splash-how-list li{font-size:var(--t-base);color:var(--ink2);line-height:1.6;padding-left:1.5rem;position:relative}
 .splash-how-list li::before{content:'';position:absolute;left:0;top:.5em;width:5px;height:5px;border-radius:50%;background:var(--border2)}
+
+/* ── Modal-open state: scroll lock + FAB suppression ── */
+body.modal-open{overflow:hidden}
+body.modal-open .fab-wrap{display:none!important}
 
 /* ═══════════════════════════════════════════════════
    FAB (mobile only)
@@ -330,7 +344,7 @@ button,.card,.ch-btn,.sa-chip,.qz-opt,.audio-btn,.drop-zone{touch-action:manipul
 .hamburger:focus-visible,.mob-search-btn:focus-visible{outline:2px solid rgba(255,255,255,.5);outline-offset:-2px}
 
 /* ── Sidebar backdrop ── */
-.sb-backdrop{display:none;position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:190}
+.sb-backdrop{display:none;position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:210}
 .sb-backdrop.open{display:block}
 
 /* ═══════════════════════════════════════════════════
@@ -364,7 +378,7 @@ button,.card,.ch-btn,.sa-chip,.qz-opt,.audio-btn,.drop-zone{touch-action:manipul
   .sidebar{
     position:fixed;left:-280px;top:0;bottom:0;
     width:270px;min-width:270px;height:100%;
-    z-index:200;transition:left .25s cubic-bezier(.4,0,.2,1);
+    z-index:220;transition:left .25s cubic-bezier(.4,0,.2,1);
   }
   .sidebar.open{left:0}
   .main{min-height:calc(100dvh - 52px)}
@@ -380,7 +394,7 @@ button,.card,.ch-btn,.sa-chip,.qz-opt,.audio-btn,.drop-zone{touch-action:manipul
   .overlay{align-items:flex-end;padding:0}
   .modal{
     width:100%;max-width:100%;border-radius:var(--r-xl) var(--r-xl) 0 0;
-    max-height:88vh;padding:0 1.25rem 2rem;
+    max-height:88vh;padding:0 1.25rem max(2rem,env(safe-area-inset-bottom));
     box-shadow:0 -8px 40px rgba(0,0,0,.25);
   }
   .modal::before{
@@ -388,6 +402,9 @@ button,.card,.ch-btn,.sa-chip,.qz-opt,.audio-btn,.drop-zone{touch-action:manipul
     background:var(--border2);border-radius:var(--r-pill);
     margin:12px auto 1rem;
   }
+  .modal-x{top:14px;right:14px}
+  .modal.dragging{transition:none}
+  .modal.snapping{transition:transform .25s ease}
 
   /* form → single column */
   .fg{grid-template-columns:1fr}
@@ -408,7 +425,7 @@ button,.card,.ch-btn,.sa-chip,.qz-opt,.audio-btn,.drop-zone{touch-action:manipul
   .modal-x{width:36px;height:36px;font-size:var(--t-md)}
 
   /* active press states */
-  .card:active{background:var(--bg)}
+  .card-head:active{background:var(--bg);border-radius:var(--r-lg)}
   .qz-opt:active:not(:disabled){background:var(--bg);border-color:var(--border2)}
   .fab-item:active{background:var(--bg)}
   .btn-p:active{opacity:.8}
@@ -427,6 +444,10 @@ button,.card,.ch-btn,.sa-chip,.qz-opt,.audio-btn,.drop-zone{touch-action:manipul
 
   /* search header */
   .search-header{font-size:var(--t-sm)}
+
+  /* quiz end actions stack vertically on mobile */
+  .qz-end-actions{flex-direction:column;align-items:stretch}
+  .qz-end-actions .btn-p,.qz-end-actions .btn-s{width:100%;text-align:center}
 }
 </style>
 </head>
@@ -444,7 +465,7 @@ button,.card,.ch-btn,.sa-chip,.qz-opt,.audio-btn,.drop-zone{touch-action:manipul
 
 <aside class="sidebar">
   <div class="sb-head">
-    <div class="sb-logo" onclick="renderHome()" title="Back to home">Lexicon <span class="sb-home-icon">⌂</span></div>
+    <div class="sb-logo" onclick="renderHome();closeSidebar()" title="Back to home">Lexicon <span class="sb-home-icon">⌂</span></div>
     <div class="sb-wordmark">AI + Product Glossary</div>
     <div class="xp-wrap">
       <div class="xp-meta">
@@ -457,7 +478,7 @@ button,.card,.ch-btn,.sa-chip,.qz-opt,.audio-btn,.drop-zone{touch-action:manipul
 
   <div class="sb-search-wrap">
     <span class="sb-search-icon">⌕</span>
-    <input type="text" id="searchInput" placeholder="Search AI terms" oninput="onSearch()"/>
+    <input type="text" id="searchInput" placeholder="Search AI terms" oninput="debouncedSearch()"/>
     <span class="sb-search-hint">⌘K</span>
   </div>
 
@@ -547,7 +568,7 @@ button,.card,.ch-btn,.sa-chip,.qz-opt,.audio-btn,.drop-zone{touch-action:manipul
 
 <!-- QUIZ MODAL -->
 <div class="overlay" id="quizOverlay" role="dialog" aria-modal="true" aria-label="Chapter quiz" onclick="overlayClose('quizOverlay',event)">
-  <div class="modal"><div id="quizBody" style="min-height:320px"></div></div>
+  <div class="modal"><div id="quizBody" role="region" aria-live="polite"></div></div>
 </div>
 
 <!-- MOBILE FAB -->
@@ -560,7 +581,7 @@ button,.card,.ch-btn,.sa-chip,.qz-opt,.audio-btn,.drop-zone{touch-action:manipul
       <span class="fab-item-icon">⬆</span> Upload doc
     </button>
   </div>
-  <button class="fab" id="fab" onclick="toggleFab()" aria-label="Open actions menu">
+  <button class="fab" id="fab" onclick="toggleFab()" aria-label="Open actions menu" aria-expanded="false">
     <span class="fab-icon" id="fabIcon">+</span>
   </button>
 </div>
@@ -588,7 +609,7 @@ a:"Like a colleague who went on sabbatical and just returned. They are sharp and
 {n:"Large Language Model (LLM)",c:"Core",l:"Basics",r:["PM","PD","CD","Biz","Dev"],
 synonyms:["LLM","large language models"],
 related:["Token","Context window","Hallucination","Generative AI","Transformer architecture"],
-example:"GPT-4, Claude, and Gemini are all LLMs. They were each trained on hundreds of billions of words of text from books, websites, code, and more.",
+example:"GPT-4, Claude, and Gemini are all LLMs trained on very large text datasets spanning books, websites, code, and more.",
 when:"Reach for an LLM when your task involves language: drafting, summarising, classifying, translating, or reasoning through text. Not the right tool for precise arithmetic or real-time data.",
 d:"A deep learning model trained on massive text datasets to understand and generate human language. LLMs predict the next token in a sequence, which allows them to answer questions, write text, reason, and generate code.",
 a:"Like a very well-read colleague who has absorbed billions of pages of text. They can finish your sentences and write essays, but they draw on patterns rather than lived experience."},
@@ -1333,7 +1354,7 @@ d:"A base LLM that has been further trained on human-written instruction and res
 a:"Like the difference between a brilliant but untrained intern and one who has been through onboarding. The knowledge base is similar but the instruction-tuned version knows how to respond to requests in a useful way."},
 
 {n:"Machine learning (ML)",c:"Core",l:"Basics",r:["Dev","PM","Biz"],
-example:"Netflix deciding what to recommend you is machine learning. A spam filter learning which emails are junk is machine learning.",
+example:"Netflix deciding what to recommend to you is machine learning. A spam filter learning which emails are junk is machine learning.",
 d:"A subset of AI focused on algorithms that learn patterns from training data and make predictions or decisions on new data, without being explicitly programmed with rules for every situation.",
 a:"Like teaching a child to recognize dogs by showing them many examples rather than giving them a checklist of dog features. They learn the pattern from the data rather than from explicit rules."},
 
@@ -1487,7 +1508,7 @@ const CHAPTERS = [
    terms:["Generative AI","Machine learning (ML)","Deep learning","Natural Language Processing (NLP)","Large Language Model (LLM)","Algorithm"]},
 
   {id:2, emoji:"🧠", title:"How LLMs think",
-   sub:"'The model predicts the next word'. but what does that actually mean? This chapter opens the box. You'll understand why context windows matter, why models sometimes make things up, and what 'token' means every time you see it on a pricing page.",
+   sub:"We often hear that a model \"predicts the next word.\" This chapter explains what that actually means: why context windows matter, why models sometimes make things up, and what \"token\" means every time you see it on a pricing page.",
    terms:["Token","Tokenization","Next-token prediction","Context window","Base LLM","Instruction-tuned LLM","Inference","Multimodal","Classification","Transformer architecture","Byte Pair Encoding (BPE)"]},
 
   {id:3, emoji:"🎓", title:"How models are trained",
@@ -1653,6 +1674,7 @@ function awardXP(n){
   ST.xp+=n; saveSt(); updateXPUI();
   const t=document.getElementById('xpToast');
   t.textContent='+'+n+' XP';
+  t.style.background='';t.style.color='';
   t.classList.add('show');
   setTimeout(()=>t.classList.remove('show'),1600);
 }
@@ -1693,15 +1715,17 @@ function buildSidebar(){
 
 function renderHome(){
   showingHome=true;
+  isSearching=false;
+  buildSidebar();
   document.getElementById('mainBody').innerHTML=`<div class="splash">
     <h1 class="splash-headline">I speak machine,<br><em>but I write for people</em></h1>
     <p class="splash-sub">AI is full of jargon. Lexicon breaks it down into clear, human language so product teams can learn, build, and communicate with confidence.</p>
     <div class="splash-body">
-      <p>Every term includes a plain-language definition, a simple analogy, and real-world examples. <strong>No prior knowledge required.</strong></p>
+      <p>Every term includes a plain-language definition, a real-world example, and a simple analogy. <strong>No prior knowledge required.</strong></p>
     </div>
     <div class="splash-cta">
-      <button class="splash-cta-btn" onclick="startLearning()" aria-label="Start learning — ${T.length} terms across ${CHAPTERS.length} chapters">
-        Start learning
+      <button class="splash-cta-btn" onclick="startLearning()" aria-label="Begin with chapter 1 — ${T.length} terms across ${CHAPTERS.length} chapters">
+        Begin with Chapter 1
         <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true" focusable="false">
           <path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
         </svg>
@@ -1711,10 +1735,10 @@ function renderHome(){
     <div class="splash-how">
       <p class="splash-how-title">How it works</p>
       <ul class="splash-how-list">
-        <li>Start with a chapter and read key concepts</li>
-        <li>Expand terms to see definitions and examples</li>
-        <li>Track your progress as you go</li>
-        <li>Add or upload your own terms anytime</li>
+        <li>Work through chapters at your own pace</li>
+        <li>Expand terms to read definitions, examples, and analogies</li>
+        <li>Take chapter quizzes to test what you've learned</li>
+        <li>Track your progress and earn XP as you go</li>
       </ul>
     </div>
   </div>`;
@@ -1743,17 +1767,23 @@ function lockedClick(){
   t.textContent='Complete the previous chapter quiz to unlock this one.';
   t.style.background='var(--ink)';t.style.color='#fff';
   t.classList.add('show');
-  setTimeout(()=>t.classList.remove('show'),2200);
+  setTimeout(()=>{t.classList.remove('show');t.style.background='';t.style.color='';},2200);
 }
 
 // ═══════════════════════════════════════════════════
 // RENDER
 // ═══════════════════════════════════════════════════
+let _searchTimer=null;
+function debouncedSearch(){
+  clearTimeout(_searchTimer);
+  _searchTimer=setTimeout(onSearch,120);
+}
 function onSearch(){
   const q=document.getElementById('searchInput').value.trim();
   isSearching=q.length>0;
   if(isSearching){
     showingHome=false;
+    buildSidebar();
     renderSearch(q);
   } else if(showingHome){
     renderHome();
@@ -1842,13 +1872,17 @@ function renderCards(terms, ns){
 
     // state row removed
 
-    return`<div class="card${isViewed?' viewed':''}" id="card_${uid}" data-name="${dn}" tabindex="0" onclick="toggleCard('${uid}','${dn}')" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();toggleCard('${uid}','${dn}')}">
-      <div class="card-head">
-        <span class="card-name">${t.n}${t.userAdded?'<span class="user-dot" title="Added by you"></span>':''}</span>
-        <div class="card-right">
-          <span class="level-chip">${lvlText}</span>
+    return`<div class="card${isViewed?' viewed':''}" id="card_${uid}" data-name="${dn}" aria-expanded="false">
+      <div class="card-top">
+        <div class="card-head" tabindex="0" role="button" aria-label="${t.n} — ${lvlText}" onclick="toggleCard('${uid}','${dn}')" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();toggleCard('${uid}','${dn}')}">
+          <span class="card-name">${t.n}${t.userAdded?'<span class="user-dot" title="Added by you"></span>':''}</span>
+          <div class="card-right">
+            <span class="level-chip" aria-hidden="true">${lvlText}</span>
+            <span class="chev" aria-hidden="true">▾</span>
+          </div>
+        </div>
+        <div class="card-actions">
           <button class="audio-btn" id="aud_${uid}" onclick="speakTerm(event,'${uid}','${dn}')" aria-label="Listen to ${t.n}" title="Listen">▶</button>
-          <span class="chev">▾</span>
         </div>
       </div>
       <div class="card-body">
@@ -1859,7 +1893,7 @@ function renderCards(terms, ns){
         ${seeAlso}
       </div>
     </div>`;
-  }).join('')||(ctx==='search'
+  }).join('')||(ns==='search'
     ?'<div class="none-msg">No matches found. Try a different search term.</div>'
     :'<div class="none-msg">No terms here yet.</div>');
 }
@@ -1869,6 +1903,8 @@ function toggleCard(uid,name){
   if(!el) return;
   const wasOpen=el.classList.contains('open');
   el.classList.toggle('open');
+  el.setAttribute('aria-expanded',!wasOpen);
+  if(wasOpen&&currentAudio===uid) stopCurrentSpeech();
   if(!wasOpen){
     // First open: mark viewed, award XP, re-render body to show state buttons
     const decoded=name.replace(/&quot;/g,'"').replace(/&#39;/g,"'");
@@ -1935,7 +1971,14 @@ function startChapterQuiz(chId){
   const ch=CHAPTERS.find(c=>c.id===chId);
   if(!ch) return;
   const pool=ch.terms.map(tn=>TMAP.get(tn)).filter(Boolean);
-  if(pool.length<2){alert('Not enough terms for a quiz in this chapter yet.');return;}
+  if(pool.length<2){
+    const t=document.getElementById('xpToast');
+    t.textContent='Not enough terms for a quiz yet.';
+    t.style.background='var(--ink)';t.style.color='#fff';
+    t.classList.add('show');
+    setTimeout(()=>{t.classList.remove('show');t.style.background='';t.style.color='';},2200);
+    return;
+  }
   const count=Math.min(6,pool.length);
   const shuffled=[...pool].sort(()=>Math.random()-.5).slice(0,count);
   quizChId=chId; quizIdx=0; quizScore=0;
@@ -1962,6 +2005,8 @@ function startChapterQuiz(chId){
     }
   });
   document.getElementById('quizOverlay').classList.add('open');
+  document.body.classList.add('modal-open');
+  closeFab();
   renderQuiz();
 }
 
@@ -1980,24 +2025,28 @@ function renderQuiz(){
     } else if(!ST.passed.has(quizChId)){
       awardXP(quizScore*10);
     }
+    const nextCh=CHAPTERS.find(c=>c.id===quizChId+1);
+    const nextLabel=nextCh?`Continue to ${nextCh.title}`:'Back to chapter';
+    const nextAction=nextCh?`closeQuiz();goChapter(${quizChId+1})`:'closeQuiz()';
     qb.innerHTML=`<div class="qz-end">
       <div class="qz-emoji">${emoji}</div>
       <div class="qz-end-t">${pass?'Chapter complete!':'Keep going'}</div>
-      <div class="qz-end-s">${quizScore} of ${quizQ.length} correct — ${pct}%<br>${pass?'Next chapter unlocked!':'Score 60% or more to pass.'}</div>
+      <div class="qz-end-s">${quizScore} of ${quizQ.length} correct (${pct}%)<br>${pass?(nextCh?'Next chapter is ready.':'You\'ve completed all chapters!'):'Score 60% or more to pass.'}</div>
       <div class="xp-pill">+${xpGain} XP earned</div>
-      <div style="display:flex;gap:.75rem;justify-content:center;flex-wrap:wrap">
-        ${pass?`<button class="btn-p" onclick="closeQuiz();goChapter(${quizChId+1}||${quizChId})">Next chapter →</button>`:''}
+      <div class="qz-end-actions">
+        ${pass?`<button class="btn-p" onclick="${nextAction}">${nextLabel} →</button>`:''}
         <button class="btn-${pass?'s':'p'}" onclick="startChapterQuiz(${quizChId})">Retry quiz</button>
-        <button class="btn-s" onclick="closeQuiz()">Done</button>
+        <button class="btn-s" onclick="closeQuiz()">Close</button>
       </div>
     </div>`;
     if(!isSearching&&activeChId===quizChId) updateQuizBtn(quizChId);
     return;
   }
   const q=quizQ[quizIdx];
-  const pct=(quizIdx/quizQ.length*100).toFixed(0);
+  const pct=((quizIdx)/quizQ.length*100).toFixed(0);
   qb.innerHTML=`
-    <div class="qz-hdr"><span class="qz-title">Chapter quiz</span><span class="qz-score">${quizScore} correct</span></div>
+    <div class="qz-hdr"><span class="qz-title">Chapter quiz</span><button class="qz-close" onclick="closeQuiz()" aria-label="Close quiz">✕</button></div>
+    <div class="qz-progress"><span>Question ${quizIdx+1} of ${quizQ.length}</span><span>${quizScore} correct</span></div>
     <div class="qz-bar"><div class="qz-fill" style="width:${pct}%"></div></div>
     <div class="qz-tag">${q.prompt}</div>
     <div class="qz-q">${q.question}</div>
@@ -2008,15 +2057,17 @@ function answerQuiz(idx){
   const q=quizQ[quizIdx];
   const opts=document.querySelectorAll('.qz-opt');
   opts.forEach(o=>o.disabled=true);
-  if(q.choices[idx]===q.answer){opts[idx].classList.add('correct');quizScore++;}
+  const isCorrect=q.choices[idx]===q.answer;
+  if(isCorrect){opts[idx].classList.add('correct');quizScore++;}
   else{opts[idx].classList.add('wrong');const ci=q.choices.indexOf(q.answer);if(ci>=0)opts[ci].classList.add('correct');}
   const nxt=document.createElement('div');
   nxt.className='qz-next';
   nxt.innerHTML=`<button class="btn-p" onclick="quizIdx++;renderQuiz()">${quizIdx+1<quizQ.length?'Next →':'See results'}</button>`;
   document.getElementById('quizBody').appendChild(nxt);
+  nxt.scrollIntoView({behavior:'smooth',block:'nearest'});
 }
 
-function closeQuiz(e){if(!e||e.target===document.getElementById('quizOverlay')) document.getElementById('quizOverlay').classList.remove('open');}
+function closeQuiz(){document.getElementById('quizOverlay').classList.remove('open');document.body.classList.remove('modal-open');}
 
 // ═══════════════════════════════════════════════════
 // AUDIO — ElevenLabs + Claude-generated scripts via backend
@@ -2167,22 +2218,29 @@ async function speakTerm(e, uid, name){
 // ═══════════════════════════════════════════════════
 // ADD TERM
 // ═══════════════════════════════════════════════════
-function openAdd(){closeFab();document.getElementById('addOverlay').classList.add('open');}
-function closeAdd(){document.getElementById('addOverlay').classList.remove('open');}
+function openAdd(){closeFab();document.getElementById('addOverlay').classList.add('open');document.body.classList.add('modal-open');}
+function closeAdd(){document.getElementById('addOverlay').classList.remove('open');document.body.classList.remove('modal-open');}
 function addTerm(){
   const name=document.getElementById('fName').value.trim();
   const def=document.getElementById('fDef').value.trim();
-  if(!name||!def){alert('Name and definition required.');return;}
+  if(!name||!def){
+    const t=document.getElementById('xpToast');
+    t.textContent='Name and definition are required.';
+    t.style.background='var(--red)';t.style.color='#fff';
+    t.classList.add('show');
+    setTimeout(()=>{t.classList.remove('show');t.style.background='';t.style.color='';},2200);
+    return;
+  }
   const disc=[...document.querySelectorAll('#fDiscRow input:checked')].map(c=>c.value);
   const t=normalizeTerm({n:name,c:document.getElementById('fCat').value,l:document.getElementById('fLvl').value,disc,r:[],d:def,a:document.getElementById('fAna').value.trim()||'No analogy yet.',synonyms:[],related:[],userAdded:true});
-  T.push(t); TMAP.set(t.n,t); _topicCountCache=null; initFuse(); saveSt(); closeAdd(); buildSidebar(); renderChapter(); awardXP(10);
+  T.push(t); TMAP.set(t.n,t); initFuse(); saveSt(); closeAdd(); buildSidebar(); renderChapter(); awardXP(10);
 }
 
 // ═══════════════════════════════════════════════════
 // UPLOAD
 // ═══════════════════════════════════════════════════
-function openUpload(){closeFab();document.getElementById('uploadOverlay').classList.add('open');resetUpload();}
-function closeUpload(){document.getElementById('uploadOverlay').classList.remove('open');resetUpload();}
+function openUpload(){closeFab();document.getElementById('uploadOverlay').classList.add('open');document.body.classList.add('modal-open');resetUpload();}
+function closeUpload(){document.getElementById('uploadOverlay').classList.remove('open');document.body.classList.remove('modal-open');resetUpload();}
 function resetUpload(){
   document.getElementById('dropZone').style.display='block';
   document.getElementById('spinWrap').style.display='none';
@@ -2193,32 +2251,59 @@ function dzOver(e){e.preventDefault();document.getElementById('dropZone').classL
 function dzDrop(e){e.preventDefault();document.getElementById('dropZone').classList.remove('drag');const f=e.dataTransfer.files[0];if(f) processFile(f);}
 function fileChosen(e){const f=e.target.files[0];if(f) processFile(f);}
 
+async function extractTextFromPDF(file){
+  if(typeof pdfjsLib==='undefined') throw new Error('PDF.js not loaded');
+  pdfjsLib.GlobalWorkerOptions.workerSrc='https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
+  const buf=await file.arrayBuffer();
+  const pdf=await pdfjsLib.getDocument({data:buf}).promise;
+  const pages=[];
+  const maxPages=Math.min(pdf.numPages,20);
+  for(let i=1;i<=maxPages;i++){
+    const page=await pdf.getPage(i);
+    const content=await page.getTextContent();
+    pages.push(content.items.map(item=>item.str).join(' '));
+  }
+  return pages.join('\n\n');
+}
+
 async function processFile(file){
-  const reader=new FileReader();
-  reader.onload=async(e)=>{
-    const text=e.target.result.slice(0,10000);
-    document.getElementById('dropZone').style.display='none';
-    document.getElementById('spinWrap').style.display='block';
-    try{
-      const res=await fetch(apiUrl('/api/extract-terms'),{
-        method:'POST',
-        headers:{'Content-Type':'application/json'},
-        body:JSON.stringify({text})
+  document.getElementById('dropZone').style.display='none';
+  document.getElementById('spinWrap').style.display='block';
+  try{
+    let text;
+    if(file.name.toLowerCase().endsWith('.pdf')){
+      text=await extractTextFromPDF(file);
+    } else {
+      text=await new Promise((resolve,reject)=>{
+        const reader=new FileReader();
+        reader.onload=e=>resolve(e.target.result);
+        reader.onerror=()=>reject(new Error('Failed to read file'));
+        reader.readAsText(file);
       });
-      if(!res.ok) throw new Error(`Server error: ${res.status}`);
-      const data=await res.json();
-      extractedTerms=(data.terms||[]).filter(t=>t.n&&t.d);
-      document.getElementById('spinWrap').style.display='none';
-      document.getElementById('extResult').style.display='block';
-      document.getElementById('extCount').textContent=`Found ${extractedTerms.length} term${extractedTerms.length!==1?'s':''}`;
-      document.getElementById('extList').innerHTML=extractedTerms.map(t=>`<div class="ext-item"><span class="ext-n">${t.n}</span><span class="ext-c">${t.c}·${t.l}</span></div>`).join('');
-    }catch(err){
-      document.getElementById('spinWrap').style.display='none';
-      document.getElementById('dropZone').style.display='block';
-      alert('Extraction failed. Please try again.');
     }
-  };
-  reader.readAsText(file);
+    text=text.slice(0,10000);
+    const res=await fetch(apiUrl('/api/extract-terms'),{
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({text})
+    });
+    if(!res.ok) throw new Error(`Server error: ${res.status}`);
+    const data=await res.json();
+    extractedTerms=(data.terms||[]).filter(t=>t.n&&t.d);
+    document.getElementById('spinWrap').style.display='none';
+    document.getElementById('extResult').style.display='block';
+    document.getElementById('extCount').textContent=`Found ${extractedTerms.length} term${extractedTerms.length!==1?'s':''}`;
+    document.getElementById('extList').innerHTML=extractedTerms.map(t=>`<div class="ext-item"><span class="ext-n">${t.n}</span><span class="ext-c">${t.c}·${t.l}</span></div>`).join('');
+  }catch(err){
+    console.error('processFile error:',err);
+    document.getElementById('spinWrap').style.display='none';
+    document.getElementById('dropZone').style.display='block';
+    const t=document.getElementById('xpToast');
+    t.textContent='Extraction failed. Please try again.';
+    t.style.background='var(--red)';t.style.color='#fff';
+    t.classList.add('show');
+    setTimeout(()=>{t.classList.remove('show');t.style.background='';t.style.color='';},2200);
+  }
 }
 
 function addExtracted(){
@@ -2255,16 +2340,18 @@ function openMobileSearch(){
 // ═══════════════════════════════════════════════════
 function toggleFab(){
   const wrap=document.getElementById('fabWrap');
-  wrap.classList.toggle('open');
+  const isOpen=wrap.classList.toggle('open');
+  document.getElementById('fab').setAttribute('aria-expanded',isOpen);
 }
 function closeFab(){
   document.getElementById('fabWrap').classList.remove('open');
+  document.getElementById('fab').setAttribute('aria-expanded','false');
 }
 
 // ═══════════════════════════════════════════════════
 // UTILITY
 // ═══════════════════════════════════════════════════
-function overlayClose(id,e){if(e.target===document.getElementById(id)) document.getElementById(id).classList.remove('open');}
+function overlayClose(id,e){if(e.target===document.getElementById(id)){document.getElementById(id).classList.remove('open');document.body.classList.remove('modal-open');}}
 
 // ═══════════════════════════════════════════════════
 // KEYBOARD SHORTCUTS
@@ -2277,12 +2364,73 @@ document.addEventListener('keydown',function(e){
     setTimeout(()=>input.focus(),window.innerWidth<=700?260:0);
   }
   if(e.key==='Escape'){
+    let closed=false;
     ['addOverlay','uploadOverlay','quizOverlay'].forEach(id=>{
       const el=document.getElementById(id);
-      if(el&&el.classList.contains('open')) el.classList.remove('open');
+      if(el&&el.classList.contains('open')){el.classList.remove('open');closed=true;}
     });
+    if(closed) document.body.classList.remove('modal-open');
   }
 });
+
+// ═══════════════════════════════════════════════════
+// SWIPE-TO-DISMISS (mobile bottom sheets)
+// ═══════════════════════════════════════════════════
+(function(){
+  if(window.matchMedia('(min-width:701px)').matches) return;
+  const DISMISS_THRESHOLD=100;
+  const closeFns={addOverlay:closeAdd,uploadOverlay:closeUpload,quizOverlay:closeQuiz};
+
+  document.querySelectorAll('.overlay').forEach(overlay=>{
+    const modal=overlay.querySelector('.modal');
+    if(!modal) return;
+    let startY=0,currentY=0,dragging=false;
+
+    modal.addEventListener('touchstart',function(e){
+      // Only start drag from the handle area (top 40px) or if scrolled to top
+      const touch=e.touches[0];
+      const rect=modal.getBoundingClientRect();
+      const offsetY=touch.clientY-rect.top;
+      if(offsetY>40&&modal.scrollTop>0) return;
+      startY=touch.clientY;currentY=startY;dragging=true;
+      modal.classList.add('dragging');
+      modal.classList.remove('snapping');
+    },{passive:true});
+
+    modal.addEventListener('touchmove',function(e){
+      if(!dragging) return;
+      currentY=e.touches[0].clientY;
+      const dy=currentY-startY;
+      if(dy>0){
+        modal.style.transform='translateY('+dy+'px)';
+        e.preventDefault();
+      } else {
+        modal.style.transform='';
+      }
+    },{passive:false});
+
+    modal.addEventListener('touchend',function(){
+      if(!dragging) return;
+      dragging=false;
+      modal.classList.remove('dragging');
+      const dy=currentY-startY;
+      if(dy>DISMISS_THRESHOLD){
+        modal.classList.add('snapping');
+        modal.style.transform='translateY(100%)';
+        setTimeout(()=>{
+          modal.style.transform='';
+          modal.classList.remove('snapping');
+          const fn=closeFns[overlay.id];
+          if(fn) fn();
+        },250);
+      } else {
+        modal.classList.add('snapping');
+        modal.style.transform='';
+        setTimeout(()=>modal.classList.remove('snapping'),250);
+      }
+    },{passive:true});
+  });
+})();
 
 // ═══════════════════════════════════════════════════
 // INIT
