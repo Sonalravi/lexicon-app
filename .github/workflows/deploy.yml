@@ -1,0 +1,53 @@
+name: Deploy
+
+on:
+  push:
+    branches: [main]
+
+jobs:
+  smoke-test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Start server with dummy keys
+        run: |
+          ANTHROPIC_API_KEY=dummy \
+          ELEVENLABS_API_KEY=dummy \
+          node server.js &
+          echo $! > server.pid
+          sleep 2
+
+      - name: Health check
+        run: |
+          curl -sf http://localhost:3000/health | grep '"ok":true'
+
+      - name: Stop server
+        if: always()
+        run: kill $(cat server.pid) || true
+
+  deploy:
+    needs: smoke-test
+    runs-on: ubuntu-latest
+    steps:
+      - name: Trigger Render deploy
+        if: ${{ secrets.RENDER_DEPLOY_WEBHOOK != '' }}
+        run: |
+          curl -sf -X POST "${{ secrets.RENDER_DEPLOY_WEBHOOK }}"
+
+      - name: Wait for deploy to settle
+        if: ${{ secrets.RENDER_DEPLOY_WEBHOOK != '' }}
+        run: sleep 60
+
+      - name: Verify deployed health
+        if: ${{ secrets.DEPLOYED_URL != '' }}
+        run: |
+          curl -sf "${{ secrets.DEPLOYED_URL }}/health" | grep '"ok":true'

@@ -18,7 +18,7 @@ app.use(express.static(join(__dirname, 'public')));
 
 // Explicit homepage route
 app.get('/', (_req, res) => {
-  res.sendFile(join(__dirname, 'public', 'lexicon_glossary_v5.html'));
+  res.sendFile(join(__dirname, 'public', 'index.html'));
 });
 
 app.get('/health', (_req, res) => {
@@ -114,6 +114,47 @@ app.post('/api/tts', async (req, res) => {
   } catch (err) {
     console.error('tts error:', err);
     res.status(500).json({ error: 'TTS generation failed' });
+  }
+});
+
+// ── Claude: extract terms from uploaded document ─────
+app.post('/api/extract-terms', async (req, res) => {
+  try {
+    const { text } = req.body || {};
+    if (!text) return res.status(400).json({ error: 'Missing text' });
+
+    const response = await fetch('https://api.anthropic.com/v1/messages', {
+      method: 'POST',
+      headers: {
+        'content-type': 'application/json',
+        'x-api-key': process.env.ANTHROPIC_API_KEY,
+        'anthropic-version': '2023-06-01'
+      },
+      body: JSON.stringify({
+        model: process.env.ANTHROPIC_MODEL || 'claude-sonnet-4-5',
+        max_tokens: 3000,
+        messages: [{
+          role: 'user',
+          content: `Extract all glossary terms from this document. Return ONLY a valid JSON array, no markdown, no backticks. Each object: {n,c,l,d,a,synonyms,related} where c is one of: AI, Prompt, Eng, Tools, Fluency, Safety, Product, Business, Content, Design. l is one of: Basics, Intermediate, Advanced. d: plain 1-3 sentence definition, no em dashes. a: plain analogy.\n\nDocument:\n${text}`
+        }]
+      })
+    });
+
+    if (!response.ok) {
+      const errorText = await response.text();
+      console.error('Anthropic extract error:', errorText);
+      return res.status(response.status).json({ error: errorText });
+    }
+
+    const data = await response.json();
+    const raw = data?.content?.[0]?.text || '[]';
+    let terms;
+    try { terms = JSON.parse(raw); }
+    catch { const m = raw.match(/\[[\s\S]*\]/); terms = m ? JSON.parse(m[0]) : []; }
+    res.json({ terms: terms.filter(t => t.n && t.d) });
+  } catch (err) {
+    console.error('extract-terms error:', err);
+    res.status(500).json({ error: 'Extraction failed' });
   }
 });
 

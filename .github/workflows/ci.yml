@@ -1,0 +1,40 @@
+name: CI
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+jobs:
+  smoke-test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Start server with dummy keys
+        run: |
+          ANTHROPIC_API_KEY=dummy \
+          ELEVENLABS_API_KEY=dummy \
+          node server.js &
+          echo $! > server.pid
+          sleep 2
+
+      - name: Health check
+        run: |
+          curl -sf http://localhost:3000/health | grep '"ok":true'
+
+      - name: Check homepage loads
+        run: |
+          curl -sf http://localhost:3000/ | grep -i "lexicon"
+
+      - name: Stop server
+        if: always()
+        run: kill $(cat server.pid) || true
