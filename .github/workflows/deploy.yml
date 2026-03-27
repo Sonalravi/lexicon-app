@@ -37,17 +37,20 @@ jobs:
   deploy:
     needs: smoke-test
     runs-on: ubuntu-latest
+    env:
+      HAS_RENDER_WEBHOOK: ${{ secrets.RENDER_DEPLOY_WEBHOOK != '' }}
+      HAS_DEPLOYED_URL: ${{ secrets.DEPLOYED_URL != '' }}
     steps:
       - name: Trigger Render deploy
-        if: ${{ secrets.RENDER_DEPLOY_WEBHOOK != '' }}
+        if: env.HAS_RENDER_WEBHOOK == 'true'
         run: |
           curl -sf -X POST "${{ secrets.RENDER_DEPLOY_WEBHOOK }}"
 
       - name: Wait for deploy to settle
-        if: ${{ secrets.RENDER_DEPLOY_WEBHOOK != '' }}
+        if: env.HAS_RENDER_WEBHOOK == 'true'
         run: sleep 60
 
       - name: Verify deployed health
-        if: ${{ secrets.DEPLOYED_URL != '' }}
+        if: env.HAS_DEPLOYED_URL == 'true'
         run: |
           curl -sf "${{ secrets.DEPLOYED_URL }}/health" | grep '"ok":true'
