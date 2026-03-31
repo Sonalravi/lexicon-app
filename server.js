@@ -12,6 +12,7 @@ const __dirname = dirname(fileURLToPath(import.meta.url));
 
 app.use(cors());
 app.use(express.json({ limit: '1mb' }));
+app.set('trust proxy', 1); // resolve real client IP when behind a reverse proxy
 
 // Serve static files from /public
 app.use(express.static(join(__dirname, 'public')));
@@ -25,8 +26,28 @@ app.get('/health', (_req, res) => {
   res.json({ ok: true });
 });
 
+// ── Rate limiting ─────────────────────────────────────────
+const rateMap = new Map(); // ip → { count, resetAt }
+// Purge expired entries every 5 minutes to prevent unbounded Map growth
+setInterval(() => {
+  const now = Date.now();
+  for (const [ip, entry] of rateMap) {
+    if (now > entry.resetAt) rateMap.delete(ip);
+  }
+}, 5 * 60 * 1000);
+
+function rateLimit(req, res, next, limit = 20, windowMs = 60_000) {
+  const ip = req.ip;
+  const now = Date.now();
+  const entry = rateMap.get(ip) || { count: 0, resetAt: now + windowMs };
+  if (now > entry.resetAt) { entry.count = 0; entry.resetAt = now + windowMs; }
+  if (++entry.count > limit) return res.status(429).json({ error: 'Rate limit exceeded' });
+  rateMap.set(ip, entry);
+  next();
+}
+
 // ── Claude: generate natural spoken script ───────────────
-app.post('/api/spoken-script', async (req, res) => {
+app.post('/api/spoken-script', (req, res, next) => rateLimit(req, res, next), async (req, res) => {
   try {
     const { prompt, name, def, ana } = req.body || {};
 
@@ -42,7 +63,7 @@ app.post('/api/spoken-script', async (req, res) => {
         'anthropic-version': '2023-06-01'
       },
       body: JSON.stringify({
-        model: process.env.ANTHROPIC_MODEL || 'claude-sonnet-4-5',
+        model: process.env.ANTHROPIC_MODEL || 'claude-sonnet-4-6',
         max_tokens: 140,
         messages: [{ role: 'user', content: prompt }]
       })
@@ -70,7 +91,7 @@ app.post('/api/spoken-script', async (req, res) => {
 });
 
 // ── ElevenLabs: text to speech ───────────────────────────
-app.post('/api/tts', async (req, res) => {
+app.post('/api/tts', (req, res, next) => rateLimit(req, res, next), async (req, res) => {
   try {
     const { text, voiceId } = req.body || {};
 
@@ -120,8 +141,9 @@ app.post('/api/tts', async (req, res) => {
 // ── Claude: extract terms from uploaded document ─────
 app.post('/api/extract-terms', async (req, res) => {
   try {
-    const { text } = req.body || {};
+    let { text } = req.body || {};
     if (!text) return res.status(400).json({ error: 'Missing text' });
+    text = text.slice(0, 12000);
 
     const response = await fetch('https://api.anthropic.com/v1/messages', {
       method: 'POST',
@@ -131,7 +153,7 @@ app.post('/api/extract-terms', async (req, res) => {
         'anthropic-version': '2023-06-01'
       },
       body: JSON.stringify({
-        model: process.env.ANTHROPIC_MODEL || 'claude-sonnet-4-5',
+        model: process.env.ANTHROPIC_MODEL || 'claude-sonnet-4-6',
         max_tokens: 3000,
         messages: [{
           role: 'user',

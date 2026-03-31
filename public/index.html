@@ -15,16 +15,16 @@
 :root{
   /* ── Palette ── */
   --bg:#F5F2ED;--surface:#FFFDF9;--sidebar:#0F0D0B;
-  --ink:#1A1714;--ink2:#5C5650;--ink3:#8C8074;
+  --ink:#1A1714;--ink2:#5C5650;--ink3:#6B6460;
   --border:#E4DED4;--border2:#CCC5B8;
   --accent:#2563EB;--gold:#D97706;--green:#059669;--red:#DC2626;
 
   /* ── Type scale ── */
   --t-xs:   0.625rem;  /* 10px — labels, eyebrows, metadata */
-  --t-sm:   0.75rem;   /* 12px — helper, chips, small body */
-  --t-base: 0.8125rem; /* 13px — body, buttons, form inputs */
-  --t-md:   0.875rem;  /* 14px — card titles, subtitles */
-  --t-lg:   0.9375rem; /* 15px — emphasized body, quiz Q */
+  --t-sm:   0.8125rem; /* 13px — helper, chips, small body */
+  --t-base: 0.875rem;  /* 14px — body, buttons, form inputs */
+  --t-md:   0.9375rem; /* 15px — card titles, subtitles */
+  --t-lg:   1rem;      /* 16px — emphasized body, quiz Q */
   --t-xl:   1.125rem;  /* 18px — modal titles, quiz headings */
 
   /* ── Radius ── */
@@ -50,7 +50,7 @@ button,.card,.ch-btn,.sa-chip,.qz-opt,.audio-btn,.drop-zone{touch-action:manipul
 /* ── Sidebar head ── */
 .sb-head{padding:1.25rem 1.25rem 1rem;border-bottom:1px solid rgba(255,255,255,.06)}
 .sb-logo{font-family:'Playfair Display',serif;font-size:1.25rem;font-weight:700;color:#fff;letter-spacing:-.02em;cursor:pointer;display:flex;align-items:center;gap:.5rem}
-.sb-logo .sb-home-icon{font-size:var(--t-base);opacity:.35;font-family:sans-serif}
+.sb-logo .sb-home-icon{font-size:var(--t-base);opacity:.5;font-family:sans-serif}
 .sb-wordmark{font-size:var(--t-xs);color:rgba(255,255,255,.4);letter-spacing:.1em;text-transform:uppercase;margin-top:2px}
 
 /* ── XP progress ── */
@@ -85,8 +85,13 @@ button,.card,.ch-btn,.sa-chip,.qz-opt,.audio-btn,.drop-zone{touch-action:manipul
 .ch-info{flex:1;min-width:0}
 .ch-title{font-size:var(--t-sm);font-weight:500;color:rgba(255,255,255,.65);line-height:1.35}
 .ch-btn.active .ch-title{color:rgba(255,255,255,.9)}
-.ch-prog{font-size:var(--t-xs);color:rgba(255,255,255,.35);margin-top:2px}
+.ch-prog{font-size:var(--t-xs);color:rgba(255,255,255,.5);margin-top:2px}
 .ch-lock{font-size:var(--t-xs);color:rgba(255,255,255,.2);flex-shrink:0}
+
+/* ── Sidebar team section ── */
+.sb-team{padding:.5rem 1rem .375rem;border-top:1px solid rgba(255,255,255,.06)}
+.sb-team-label{font-size:var(--t-xs);font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:rgba(255,255,255,.25);display:block;margin-bottom:.375rem}
+.sb-team-btns{display:flex;gap:.5rem}
 
 /* ── Sidebar footer ── */
 .sb-footer{padding:.75rem 1rem;border-top:1px solid rgba(255,255,255,.06);display:flex;gap:.5rem}
@@ -109,6 +114,9 @@ button,.card,.ch-btn,.sa-chip,.qz-opt,.audio-btn,.drop-zone{touch-action:manipul
 .search-header strong{color:var(--ink)}
 
 /* ── Chapter view ── */
+.ch-back-btn{font-size:var(--t-sm);color:var(--ink3);background:none;border:none;cursor:pointer;padding:0 0 .5rem;display:block;transition:color .12s;letter-spacing:.01em}
+.ch-back-btn:hover{color:var(--ink2)}
+.ch-back-btn:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
 .chapter-header{margin-bottom:1.5rem}
 .ch-eyebrow{font-size:var(--t-xs);font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--ink3);margin-bottom:.5rem}
 .ch-main-title{font-family:'Playfair Display',serif;font-size:clamp(1.5rem,3.5vw,2rem);font-weight:700;color:var(--ink);letter-spacing:-.02em;line-height:1.15;margin-bottom:.75rem}
@@ -136,7 +144,9 @@ button,.card,.ch-btn,.sa-chip,.qz-opt,.audio-btn,.drop-zone{touch-action:manipul
 .card-name{font-size:var(--t-md);font-weight:600;color:var(--ink);flex:1;line-height:1.35}
 .user-dot{display:inline-block;width:6px;height:6px;border-radius:50%;background:var(--accent);margin-left:6px;vertical-align:middle}
 .card-right{display:flex;align-items:center;gap:6px;flex-shrink:0}
-.level-chip{font-size:var(--t-xs);color:var(--ink3);font-weight:500;white-space:nowrap;background:var(--bg);padding:2px 8px;border-radius:var(--r-pill);border:1px solid var(--border)}
+.level-chip{font-size:var(--t-xs);font-weight:500;white-space:nowrap;padding:2px 8px;border-radius:var(--r-pill);border:1px solid var(--border);color:var(--ink3);background:var(--bg)}
+.level-chip.lvl-intermediate{background:#FEF3C7;color:#92400E;border-color:#FDE68A}
+.level-chip.lvl-advanced{background:#FEE2E2;color:#991B1B;border-color:#FECACA}
 .audio-btn{width:32px;height:32px;border-radius:50%;background:var(--bg);border:1px solid var(--border);cursor:pointer;color:var(--ink3);font-size:var(--t-xs);display:flex;align-items:center;justify-content:center;transition:all .12s;flex-shrink:0}
 .audio-btn:hover{background:var(--border);color:var(--ink);border-color:var(--border2)}
 .audio-btn.playing{background:var(--ink);color:#fff;border-color:var(--ink)}
@@ -449,6 +459,50 @@ body.modal-open .fab-wrap{display:none!important}
   .qz-end-actions{flex-direction:column;align-items:stretch}
   .qz-end-actions .btn-p,.qz-end-actions .btn-s{width:100%;text-align:center}
 }
+
+/* ═══════════════════════════════════════════════════
+   DARK MODE
+   ═══════════════════════════════════════════════════ */
+@media(prefers-color-scheme:dark){
+  :root{
+    --bg:#131110;
+    --surface:#1C1917;
+    --ink:#EDE9E3;
+    --ink2:#9A9088;
+    --ink3:#7A726C;
+    --border:#2A2724;
+    --border2:#3D3830;
+  }
+  /* Card section blocks use hardcoded colors — override */
+  .simple-wrap{background:var(--bg)}
+  .example-wrap{background:#0C1E2A;border-left-color:#1D4E6B}
+  .example-text{color:#7DD3FC}
+  .when-wrap{background:#0C1F17;border-left-color:#166534}
+  .when-text{color:#6EE7B7}
+  /* Form inputs */
+  .fl input,.fl select,.fl textarea{background:#1A1714;color:var(--ink);border-color:var(--border2)}
+  .fl input:focus,.fl select:focus,.fl textarea:focus{border-color:var(--ink3)}
+  /* Modals */
+  .modal{background:var(--surface)}
+  .overlay{background:rgba(0,0,0,.82)}
+  /* XP pill */
+  .xp-pill{background:#3A2D0A;color:#FCD34D}
+  /* Quiz options */
+  .qz-opt{background:var(--surface);border-color:var(--border);color:var(--ink)}
+  .qz-opt:hover:not(:disabled){background:var(--bg);border-color:var(--border2)}
+  /* Buttons */
+  .btn-s{background:transparent;border-color:var(--border2);color:var(--ink2)}
+  .btn-s:hover{background:var(--bg)}
+  /* Drop zone */
+  .drop-zone{border-color:var(--border2)}
+  .drop-zone:hover,.drop-zone.drag{background:var(--bg);border-color:var(--ink3)}
+  /* Level chips */
+  .level-chip.lvl-intermediate{background:#3A2D0A;color:#FCD34D;border-color:#6B4F00}
+  .level-chip.lvl-advanced{background:#3A0A0A;color:#FCA5A5;border-color:#7F1D1D}
+  /* Splash */
+  .splash-cta-btn{background:var(--ink);color:var(--bg)}
+  .splash-cta-btn:hover{background:var(--ink2)}
+}
 </style>
 </head>
 <body>
@@ -483,6 +537,15 @@ body.modal-open .fab-wrap{display:none!important}
   </div>
 
   <div class="sb-chapters" id="sbChapters"></div>
+
+  <div class="sb-team">
+    <span class="sb-team-label">Team</span>
+    <div class="sb-team-btns">
+      <button class="sb-icon-btn" onclick="exportBundle()" aria-label="Export lexicon bundle">↓ Export</button>
+      <button class="sb-icon-btn" onclick="document.getElementById('bundleIn').click()" aria-label="Import lexicon bundle">↑ Import</button>
+    </div>
+  </div>
+  <input type="file" id="bundleIn" accept=".json" style="display:none" onchange="handleBundleFile(this.files[0])"/>
 
   <div class="sb-footer">
     <button class="sb-icon-btn" onclick="openUpload()" aria-label="Upload a document">⬆ Upload</button>
@@ -551,7 +614,7 @@ body.modal-open .fab-wrap{display:none!important}
     <div class="drop-zone" id="dropZone" onclick="document.getElementById('fileIn').click()" ondragover="dzOver(event)" ondrop="dzDrop(event)">
       <div class="dz-icon">📄</div>
       <div class="dz-main">Drop a file or click to browse</div>
-      <div class="dz-sub">Supports TXT, MD, PDF, and CSV</div>
+      <div class="dz-sub" id="dzSub">TXT, MD, PDF (up to 20 pages), CSV</div>
       <input type="file" id="fileIn" accept=".txt,.md,.pdf,.csv" style="display:none" onchange="fileChosen(event)"/>
     </div>
     <div class="spin-wrap" id="spinWrap"><div class="spinner"></div><p class="spin-txt">Extracting glossary terms...</p></div>
@@ -1578,6 +1641,9 @@ const CHAPTERS = [
 const OLD_TO_NEW={Core:"AI",API:"Eng",MCP:"Eng",Code:"Tools",Deploy:"Tools",Risks:"Safety"};
 const ROLE_TO_DISC={PM:"Product",PD:"Design",CD:"Content",Biz:"Business",Dev:"Engineering"};
 
+// ── HTML-escape helper (prevents XSS from user-added term data) ──
+function esc(s){ return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#39;'); }
+
 function normalizeTerm(t){
   let c=t.c;
   if(OLD_TO_NEW[c]) c=OLD_TO_NEW[c];
@@ -1606,7 +1672,8 @@ function loadSt(){
       applied:new Set(s.applied||[]),
       xp:s.xp||0,
       passed:new Set(s.passed||[]),
-      userTerms:s.userTerms||[]
+      userTerms:s.userTerms||[],
+      lastChapter:s.lastChapter||null
     };
   }catch(e){return{viewed:new Set(),practiced:new Set(),applied:new Set(),xp:0,passed:new Set(),userTerms:[]};}
 }
@@ -1617,7 +1684,8 @@ function saveSt(){
     applied:[...ST.applied],
     xp:ST.xp,
     passed:[...ST.passed],
-    userTerms:T.filter(t=>t.userAdded)
+    userTerms:T.filter(t=>t.userAdded),
+    lastChapter:ST.lastChapter||null
   }));}
   catch(e){}
 }
@@ -1632,12 +1700,15 @@ const TMAP=new Map(T.map(t=>[t.n,t]));
 // Fuse search
 let fuse;
 function initFuse(){
+  if(typeof Fuse==='undefined'){console.warn('Lexicon: Fuse.js unavailable — fuzzy search degraded to exact match');return;}
   fuse=new Fuse(T,{
     keys:[{name:'n',weight:.6},{name:'synonyms',weight:.45},{name:'d',weight:.1},{name:'a',weight:.05}],
     threshold:.35,ignoreLocation:true,minMatchCharLength:2
   });
 }
 initFuse();
+// Flag PDF.js availability for upload UI
+const PDF_AVAILABLE=typeof pdfjsLib!=='undefined';
 
 // Chapters map: term name → chapter id
 const TERM_TO_CH=new Map();
@@ -1657,6 +1728,7 @@ let isSearching=false;
 let extractedTerms=[];
 let quizQ=[],quizIdx=0,quizScore=0,quizChId=0;
 let showingHome=true;
+let navHistory=[];
 
 // ═══════════════════════════════════════════════════
 // XP + RANKS
@@ -1706,7 +1778,7 @@ function buildSidebar(){
       <span class="ch-num">${done?'✓':ch.id}</span>
       <span class="ch-info">
         <span class="ch-title">${ch.emoji} ${ch.title}</span>
-        <span class="ch-prog">${read} of ${total}</span>
+        <span class="ch-prog" id="ch-prog-${ch.id}">${read} of ${total}</span>
       </span>
       ${locked?'<span class="ch-lock">🔒</span>':''}
     </button>`;
@@ -1718,8 +1790,9 @@ function renderHome(){
   isSearching=false;
   buildSidebar();
   document.getElementById('mainBody').innerHTML=`<div class="splash">
-    <h1 class="splash-headline">I speak machine,<br><em>but I write for people</em></h1>
-    <p class="splash-sub">AI is full of jargon. Lexicon breaks it down into clear, human language so product teams can learn, build, and communicate with confidence.</p>
+    <h1 class="splash-headline">AI is full of jargon.<br><em>Lexicon breaks it down.</em></h1>
+    <p class="splash-sub">Clear, human language so product teams can learn, build, and communicate with confidence.</p>
+    <p class="splash-eyebrow" style="margin-top:-.5rem;margin-bottom:1.5rem;font-style:italic;text-transform:none;letter-spacing:0;">I speak machine, but I write for people.</p>
     <div class="splash-body">
       <p>Every term includes a plain-language definition, a real-world example, and a simple analogy. <strong>No prior knowledge required.</strong></p>
     </div>
@@ -1737,6 +1810,7 @@ function renderHome(){
       <ul class="splash-how-list">
         <li>Work through chapters at your own pace</li>
         <li>Expand terms to read definitions, examples, and analogies</li>
+        <li>Hear every term explained in plain language with AI-generated audio</li>
         <li>Take chapter quizzes to test what you've learned</li>
         <li>Track your progress and earn XP as you go</li>
       </ul>
@@ -1753,9 +1827,12 @@ function startLearning(){
 }
 
 function goChapter(id){
+  navHistory=[];
   showingHome=false;
   activeChId=id;
   isSearching=false;
+  ST.lastChapter=id;
+  saveSt();
   document.getElementById('searchInput').value='';
   closeSidebar();
   buildSidebar();
@@ -1765,6 +1842,14 @@ function goChapter(id){
 function lockedClick(){
   const t=document.getElementById('xpToast');
   t.textContent='Complete the previous chapter quiz to unlock this one.';
+  t.style.background='var(--ink)';t.style.color='#fff';
+  t.classList.add('show');
+  setTimeout(()=>{t.classList.remove('show');t.style.background='';t.style.color='';},2200);
+}
+
+function quizNotReady(n){
+  const t=document.getElementById('xpToast');
+  t.textContent=`Read ${n} more ${n===1?'term':'terms'} to unlock the quiz.`;
   t.style.background='var(--ink)';t.style.color='#fff';
   t.classList.add('show');
   setTimeout(()=>{t.classList.remove('show');t.style.background='';t.style.color='';},2200);
@@ -1796,8 +1881,11 @@ function onSearch(){
 function renderSearch(q){
   const results=q.length>=2&&fuse?fuse.search(q).map(r=>r.item):T.filter(t=>t.n.toLowerCase().includes(q.toLowerCase()));
   const mb=document.getElementById('mainBody');
-  mb.innerHTML=`<div class="search-header">Search results for <strong>"${q}"</strong> — ${results.length} term${results.length!==1?'s':''}</div>`
+  mb.innerHTML=`<div class="search-header">Search results for <strong>"${esc(q)}"</strong> — ${results.length} term${results.length!==1?'s':''}</div>`
     +renderCards(results,'search');
+  if(!results.length){
+    mb.innerHTML+=`<div class="none-msg">No terms found for "<strong>${esc(q)}</strong>".<br>Try a different spelling, or <button onclick="openAdd()" style="padding:8px 12px;background:#E8D5C4;border:1px solid #D4C4B9;cursor:pointer;border-radius:4px;">add this term</button>.</div>`;
+  }
 }
 
 function renderChapter(){
@@ -1807,18 +1895,22 @@ function renderChapter(){
   const readCount=ch.terms.filter(tn=>ST.viewed.has(tn)).length;
   const allRead=readCount===ch.terms.length;
   const passed=ST.passed.has(ch.id);
+  const remaining=ch.terms.length-readCount;
   const quizState=passed?'passed':allRead?'ready':'';
   const quizLabel=passed?'✓ Passed':'Take chapter quiz';
+  const quizOnClick=passed?'':allRead?`startChapterQuiz(${ch.id})`:`quizNotReady(${remaining})`;
+  const quizLocked=!allRead&&!passed;
 
   let html=`<div class="chapter-header">
+    ${navHistory.length?`<button class="ch-back-btn" onclick="goBack()" aria-label="Go back">← Back</button>`:''}
     <div class="ch-eyebrow">Chapter ${ch.id} of ${CHAPTERS.length}</div>
     <div class="ch-main-title">${ch.emoji} ${ch.title}</div>
     <div class="ch-subtitle">${ch.sub}</div>
     <div class="ch-meta-row">
       <span class="ch-stat"><strong>${readCount}</strong> / ${ch.terms.length} terms read</span>
-      <button class="quiz-btn${quizState?' '+quizState:''}" aria-label="${passed?'Chapter quiz passed':allRead?'Take chapter quiz — ready':'Take chapter quiz — read all terms first'}"
-        onclick="${passed?'':'startChapterQuiz('+ch.id+')'}"
-        ${passed?'disabled':''}>
+      <button class="quiz-btn${quizState?' '+quizState:''}" aria-label="${passed?'Chapter quiz passed':allRead?'Take chapter quiz — ready':`Read ${remaining} more term${remaining===1?'':'s'} to unlock the quiz`}"
+        onclick="${quizOnClick}"
+        ${passed?'disabled':''}${quizLocked?' style="opacity:.55;cursor:not-allowed"':''}>
         ${quizLabel}
       </button>
     </div>
@@ -1848,54 +1940,54 @@ function renderCards(terms, ns){
 
     const validRel=(t.related||[]).filter(n=>tSet.has(n));
     const seeAlso=validRel.length
-      ?`<div class="see-also"><span class="sa-l">Related</span>`+validRel.map(n=>`<span class="sa-chip" onclick="jumpToTerm('${n.replace(/'/g,"&#39;")}');event.stopPropagation()">${n}</span>`).join('')+`</div>`
+      ?`<div class="see-also"><span class="sa-l">Related</span>`+validRel.map(n=>`<span class="sa-chip" onclick="jumpToTerm('${esc(n)}');event.stopPropagation()">${esc(n)}</span>`).join('')+`</div>`
       :'';
 
     const lvlText=t.l==='Basics'?'Basics':t.l==='Intermediate'?'Intermediate':'Advanced';
-    const dn=t.n.replace(/"/g,'&quot;');
+    const lvlClass=t.l==='Intermediate'?' lvl-intermediate':t.l==='Advanced'?' lvl-advanced':'';
+    const dn=esc(t.n);
 
     // section blocks
-    const simpleBlock=`<div class="simple-wrap">
-      <div class="section-row"><span class="section-icon">💡</span><span class="section-lbl">In simple terms</span></div>
-      <div class="simple-text">${t.a}</div>
-    </div>`;
+    const hasAnalogy=t.a&&t.a!=='No analogy yet.';
+    const simpleBlock=hasAnalogy?`<div class="simple-wrap">
+      <div class="section-row"><span class="section-icon">💡</span><span class="section-lbl">Think of it like</span></div>
+      <div class="simple-text">${esc(t.a)}</div>
+    </div>`:'';
 
     const exBlock=t.example?`<div class="example-wrap">
       <div class="section-row"><span class="section-icon">↳</span><span class="section-lbl">Example</span></div>
-      <div class="example-text">${t.example}</div>
+      <div class="example-text">${esc(t.example)}</div>
     </div>`:'';
 
     const whenBlock=t.when?`<div class="when-wrap">
       <div class="section-row"><span class="section-icon">✓</span><span class="section-lbl">When to use this</span></div>
-      <div class="when-text">${t.when}</div>
+      <div class="when-text">${esc(t.when)}</div>
     </div>`:'';
 
     // state row removed
 
     return`<div class="card${isViewed?' viewed':''}" id="card_${uid}" data-name="${dn}" aria-expanded="false">
       <div class="card-top">
-        <div class="card-head" tabindex="0" role="button" aria-label="${t.n} — ${lvlText}" onclick="toggleCard('${uid}','${dn}')" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();toggleCard('${uid}','${dn}')}">
-          <span class="card-name">${t.n}${t.userAdded?'<span class="user-dot" title="Added by you"></span>':''}</span>
+        <div class="card-head" tabindex="0" role="button" aria-label="${esc(t.n)} — ${lvlText}" onclick="toggleCard('${uid}','${dn}')" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();toggleCard('${uid}','${dn}')}">
+          <span class="card-name">${esc(t.n)}${t.userAdded?'<span class="user-dot" title="Added by you"></span>':''}</span>
           <div class="card-right">
-            <span class="level-chip" aria-hidden="true">${lvlText}</span>
+            <span class="level-chip${lvlClass}" aria-hidden="true">${lvlText}</span>
             <span class="chev" aria-hidden="true">▾</span>
           </div>
         </div>
         <div class="card-actions">
-          <button class="audio-btn" id="aud_${uid}" onclick="speakTerm(event,'${uid}','${dn}')" aria-label="Listen to ${t.n}" title="Listen">▶</button>
+          <button class="audio-btn" id="aud_${uid}" onclick="speakTerm(event,'${uid}','${dn}')" aria-label="Listen to ${esc(t.n)}" title="Listen">▶</button>
         </div>
       </div>
       <div class="card-body">
-        <p class="def-text">${t.d}</p>
+        <p class="def-text">${esc(t.d)}</p>
         ${simpleBlock}
         ${exBlock}
         ${whenBlock}
         ${seeAlso}
       </div>
     </div>`;
-  }).join('')||(ns==='search'
-    ?'<div class="none-msg">No matches found. Try a different search term.</div>'
-    :'<div class="none-msg">No terms here yet.</div>');
+  }).join('')||( ns==='search'?'':'<div class="none-msg">No terms here yet.</div>');
 }
 
 function toggleCard(uid,name){
@@ -1909,12 +2001,16 @@ function toggleCard(uid,name){
     // First open: mark viewed, award XP, re-render body to show state buttons
     const decoded=name.replace(/&quot;/g,'"').replace(/&#39;/g,"'");
     const isFirstView=!ST.viewed.has(decoded);
+    const isVeryFirst=isFirstView&&ST.viewed.size===0&&activeChId===1;
     if(isFirstView){
       ST.viewed.add(decoded);
       awardXP(5);
       saveSt();
-      buildSidebar();
+      // Surgical update: progress counter + XP bar only (avoids full sidebar re-render)
+      updateXPUI();
       const ch=CHAPTERS.find(c=>c.terms.includes(decoded));
+      if(ch){const prog=document.getElementById('ch-prog-'+ch.id);if(prog){const r=ch.terms.filter(tn=>ST.viewed.has(tn)).length;prog.textContent=`${r} of ${ch.terms.length}`;}}
+
       if(ch&&ch.id===activeChId&&!isSearching) updateQuizBtn(ch.id);
     }
     // Re-render card body on first open
@@ -1923,13 +2019,14 @@ function toggleCard(uid,name){
       const tSet=new Set(T.map(x=>x.n));
       const validRel=(t.related||[]).filter(n=>tSet.has(n));
       const related=validRel.length
-        ?`<div class="see-also"><span class="sa-l">Related</span>`+validRel.map(n=>`<span class="sa-chip" onclick="jumpToTerm('${n.replace(/'/g,"&#39;")}');event.stopPropagation()">${n}</span>`).join('')+`</div>`
+        ?`<div class="see-also"><span class="sa-l">Related</span>`+validRel.map(n=>`<span class="sa-chip" onclick="jumpToTerm('${esc(n)}');event.stopPropagation()">${esc(n)}</span>`).join('')+`</div>`
         :'';
       el.querySelector('.card-body').innerHTML=`
-        <p class="def-text">${t.d}</p>
-        ${t.a?`<div class="simple-wrap"><div class="section-row"><span class="section-icon">💡</span><span class="section-lbl">In simple terms</span></div><div class="simple-text">${t.a}</div></div>`:''}
-        ${t.example?`<div class="example-wrap"><div class="section-row"><span class="section-icon">↳</span><span class="section-lbl">Example</span></div><div class="example-text">${t.example}</div></div>`:''}
-        ${t.when?`<div class="when-wrap"><div class="section-row"><span class="section-icon">✓</span><span class="section-lbl">When to use this</span></div><div class="when-text">${t.when}</div></div>`:''}
+        ${isVeryFirst?`<div style="font-size:var(--t-xs);color:var(--ink3);margin-bottom:.625rem;padding:.375rem .625rem;background:var(--bg);border-radius:var(--r-sm);border:1px solid var(--border)">▶ Try the audio button to hear this term explained</div>`:''}
+        <p class="def-text">${esc(t.d)}</p>
+        ${t.a&&t.a!=='No analogy yet.'?`<div class="simple-wrap"><div class="section-row"><span class="section-icon">💡</span><span class="section-lbl">Think of it like</span></div><div class="simple-text">${esc(t.a)}</div></div>`:''}
+        ${t.example?`<div class="example-wrap"><div class="section-row"><span class="section-icon">↳</span><span class="section-lbl">Example</span></div><div class="example-text">${esc(t.example)}</div></div>`:''}
+        ${t.when?`<div class="when-wrap"><div class="section-row"><span class="section-icon">✓</span><span class="section-lbl">When to use this</span></div><div class="when-text">${esc(t.when)}</div></div>`:''}
         ${related}`;
     }
   }
@@ -1948,20 +2045,42 @@ function updateQuizBtn(chId){
   if(!btn) return;
   const allRead=ch.terms.every(tn=>ST.viewed.has(tn));
   const passed=ST.passed.has(chId);
-  if(passed){btn.className='quiz-btn passed';btn.disabled=true;btn.textContent='✓ Passed';}
-  else if(allRead){btn.className='quiz-btn ready';btn.textContent='Take chapter quiz';}
+  if(passed){
+    btn.className='quiz-btn passed';btn.disabled=true;btn.textContent='✓ Passed';
+    btn.removeAttribute('style');btn.onclick=null;
+  } else if(allRead){
+    btn.className='quiz-btn ready';btn.textContent='Take chapter quiz';
+    btn.removeAttribute('style');btn.onclick=()=>startChapterQuiz(chId);
+  } else {
+    const remaining=ch.terms.length-[...ST.viewed].filter(n=>ch.terms.includes(n)).length;
+    btn.onclick=()=>quizNotReady(remaining);
+  }
 }
 
 function jumpToTerm(name){
   const chId=TERM_TO_CH.get(name);
-  if(chId){
-    goChapter(chId);
-    setTimeout(()=>{
-      const cards=document.querySelectorAll('.card');
-      const target=[...cards].find(c=>c.dataset.name===name);
-      if(target){target.scrollIntoView({behavior:'smooth',block:'center'}); target.click();}
-    },150);
-  }
+  if(!chId) return;
+  // Push current chapter to history if navigating away from it
+  if(!showingHome&&activeChId!==chId) navHistory.push(activeChId);
+  // Navigate directly (not via goChapter, so navHistory is preserved)
+  showingHome=false; isSearching=false; activeChId=chId;
+  ST.lastChapter=chId; saveSt();
+  document.getElementById('searchInput').value='';
+  closeSidebar(); buildSidebar(); renderChapter();
+  // Double rAF: first frame commits the render, second frame the layout
+  requestAnimationFrame(()=>requestAnimationFrame(()=>{
+    const cards=document.querySelectorAll('.card');
+    const target=[...cards].find(c=>c.dataset.name===name);
+    if(target){target.scrollIntoView({behavior:'smooth',block:'center'});target.click();}
+  }));
+}
+function goBack(){
+  if(!navHistory.length) return;
+  const prevId=navHistory.pop();
+  showingHome=false; isSearching=false; activeChId=prevId;
+  ST.lastChapter=prevId; saveSt();
+  document.getElementById('searchInput').value='';
+  closeSidebar(); buildSidebar(); renderChapter();
 }
 
 // ═══════════════════════════════════════════════════
@@ -2014,6 +2133,7 @@ function startChapterQuiz(chId){
   document.getElementById('quizOverlay').classList.add('open');
   document.body.classList.add('modal-open');
   closeFab();
+  attachQuizKeys();
   renderQuiz();
 }
 
@@ -2057,7 +2177,8 @@ function renderQuiz(){
     <div class="qz-bar"><div class="qz-fill" style="width:${pct}%"></div></div>
     <div class="qz-tag">${q.prompt}</div>
     <div class="qz-q">${q.question}</div>
-    <div class="qz-opts">${q.choices.map((c,i)=>`<button class="qz-opt" onclick="answerQuiz(${i})">${c}</button>`).join('')}</div>`;
+    <div class="qz-opts">${q.choices.map((c,i)=>`<button class="qz-opt" onclick="answerQuiz(${i})">${c}</button>`).join('')}</div>
+    <div style="margin-top:.75rem;font-size:var(--t-xs);color:var(--ink3);text-align:right">1–${q.choices.length} to answer · Enter to next</div>`;
 }
 
 function answerQuiz(idx){
@@ -2074,7 +2195,30 @@ function answerQuiz(idx){
   nxt.scrollIntoView({behavior:'smooth',block:'nearest'});
 }
 
-function closeQuiz(){document.getElementById('quizOverlay').classList.remove('open');document.body.classList.remove('modal-open');}
+let _quizKeyHandler=null;
+function attachQuizKeys(){
+  if(_quizKeyHandler) return;
+  _quizKeyHandler=function(e){
+    if(!document.getElementById('quizOverlay').classList.contains('open')) return;
+    const opts=document.querySelectorAll('.qz-opt:not(:disabled)');
+    const nxtBtn=document.querySelector('.qz-next .btn-p');
+    if(e.key>='1'&&e.key<='4'){
+      const idx=parseInt(e.key)-1;
+      if(opts[idx]){e.preventDefault();opts[idx].click();}
+    } else if((e.key==='Enter'||e.key===' ')&&nxtBtn){
+      e.preventDefault();nxtBtn.click();
+    }
+  };
+  document.addEventListener('keydown',_quizKeyHandler);
+}
+function detachQuizKeys(){
+  if(_quizKeyHandler){document.removeEventListener('keydown',_quizKeyHandler);_quizKeyHandler=null;}
+}
+function closeQuiz(){
+  document.getElementById('quizOverlay').classList.remove('open');
+  document.body.classList.remove('modal-open');
+  detachQuizKeys();
+}
 
 // ═══════════════════════════════════════════════════
 // AUDIO — ElevenLabs + Claude-generated scripts via backend
@@ -2219,6 +2363,11 @@ async function speakTerm(e, uid, name){
     console.error('speakTerm:', err);
     btn.classList.remove('playing'); btn.textContent='▶';
     if(currentAudio===uid) currentAudio=null;
+    const t=document.getElementById('xpToast');
+    t.textContent='Couldn\'t generate audio — try again.';
+    t.style.background='var(--red)';t.style.color='#fff';
+    t.classList.add('show');
+    setTimeout(()=>{t.classList.remove('show');t.style.background='';t.style.color='';},2200);
   }
 }
 
@@ -2246,7 +2395,17 @@ function addTerm(){
 // ═══════════════════════════════════════════════════
 // UPLOAD
 // ═══════════════════════════════════════════════════
-function openUpload(){closeFab();document.getElementById('uploadOverlay').classList.add('open');document.body.classList.add('modal-open');resetUpload();}
+function openUpload(){
+  closeFab();
+  document.getElementById('uploadOverlay').classList.add('open');
+  document.body.classList.add('modal-open');
+  if(!PDF_AVAILABLE){
+    const sub=document.getElementById('dzSub');
+    if(sub) sub.textContent='TXT, MD, CSV (PDF unavailable — library failed to load)';
+    document.getElementById('fileIn').accept='.txt,.md,.csv';
+  }
+  resetUpload();
+}
 function closeUpload(){document.getElementById('uploadOverlay').classList.remove('open');document.body.classList.remove('modal-open');resetUpload();}
 function resetUpload(){
   document.getElementById('dropZone').style.display='block';
@@ -2319,6 +2478,73 @@ function addExtracted(){
     T.push(nt); TMAP.set(nt.n,nt);
   });
   initFuse(); saveSt(); buildSidebar(); renderChapter(); awardXP(extractedTerms.length*3); closeUpload();
+}
+
+// ═══════════════════════════════════════════════════
+// TEAM BUNDLE — EXPORT / IMPORT
+// ═══════════════════════════════════════════════════
+function exportBundle(){
+  const bundle={
+    version:1,
+    exportedAt:new Date().toISOString(),
+    customTerms:T.filter(t=>t.userAdded),
+    passed:[...ST.passed]
+  };
+  const blob=new Blob([JSON.stringify(bundle,null,2)],{type:'application/json'});
+  const url=URL.createObjectURL(blob);
+  const a=document.createElement('a');
+  a.href=url; a.download=`lexicon-bundle-${Date.now()}.json`; a.click();
+  URL.revokeObjectURL(url);
+  const t=document.getElementById('xpToast');
+  t.textContent='Bundle exported. Share with your team.';
+  t.style.background='var(--green)';t.style.color='#fff';
+  t.classList.add('show');
+  setTimeout(()=>{t.classList.remove('show');t.style.background='';t.style.color='';},2200);
+}
+
+async function handleBundleFile(file){
+  if(!file) return;
+  document.getElementById('bundleIn').value=''; // allow re-import of same file
+  const showErr=(msg)=>{
+    const t=document.getElementById('xpToast');
+    t.textContent=msg; t.style.background='var(--red)'; t.style.color='#fff';
+    t.classList.add('show');
+    setTimeout(()=>{t.classList.remove('show');t.style.background='';t.style.color='';},2200);
+  };
+  let bundle;
+  try{ bundle=JSON.parse(await file.text()); }
+  catch{ showErr('Invalid bundle format.'); return; }
+  if(!bundle||!Array.isArray(bundle.customTerms)||!Array.isArray(bundle.passed)){
+    showErr('Invalid bundle format.'); return;
+  }
+  // Merge custom terms — skip duplicates by name, keep local version
+  const existingNames=new Set(T.map(t=>t.n));
+  let newTerms=0;
+  bundle.customTerms.forEach(raw=>{
+    if(!raw.n||!raw.d||existingNames.has(raw.n)) return;
+    const nt=normalizeTerm({...raw,synonyms:raw.synonyms||[],related:raw.related||[],r:[],userAdded:true});
+    T.push(nt); TMAP.set(nt.n,nt); existingNames.add(nt.n); newTerms++;
+  });
+  // Merge passed chapters — union only, never remove
+  let newChapters=0;
+  bundle.passed.forEach(id=>{
+    const chId=Number(id);
+    if(!ST.passed.has(chId)&&CHAPTERS.find(c=>c.id===chId)){
+      ST.passed.add(chId); newChapters++;
+    }
+  });
+  if(newTerms>0||newChapters>0){ initFuse(); saveSt(); }
+  buildSidebar();
+  if(!showingHome) renderChapter();
+  // Build descriptive toast
+  const parts=[];
+  if(newTerms>0) parts.push(`${newTerms} new term${newTerms===1?'':'s'}`);
+  if(newChapters>0) parts.push(`${newChapters} chapter${newChapters===1?'':'s'} unlocked`);
+  const msg=parts.length?`Bundle imported — ${parts.join(' and ')}.`:'Bundle imported. Nothing new to add.';
+  const t=document.getElementById('xpToast');
+  t.textContent=msg; t.style.background='var(--green)'; t.style.color='#fff';
+  t.classList.add('show');
+  setTimeout(()=>{t.classList.remove('show');t.style.background='';t.style.color='';},3000);
 }
 
 // ═══════════════════════════════════════════════════
@@ -2444,8 +2670,13 @@ document.addEventListener('keydown',function(e){
 // ═══════════════════════════════════════════════════
 updateXPUI();
 buildSidebar();
-// Show home screen first, not chapter 1
-renderHome();
+// Resume last chapter for returning users; show home for first-time visitors
+(function(){
+  const resumeId=ST.lastChapter;
+  const resumeCh=resumeId&&CHAPTERS.find(c=>c.id===resumeId);
+  if(resumeCh){activeChId=resumeId;renderChapter();}
+  else{renderHome();}
+})();
 </script>
 </body>
 </html>
