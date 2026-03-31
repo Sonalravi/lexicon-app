@@ -739,7 +739,7 @@ a:"Like reading a live news ticker rather than waiting for a full article to be 
 synonyms:["top-p","nucleus sampling","top p"],
 related:["Temperature","Frequency penalty","Presence penalty"],
 d:"Top P (nucleus sampling) is a sampling parameter that limits the pool of words the model considers at each step to only those whose combined probability reaches a set threshold. Lower values keep outputs focused; higher values allow more diversity.",
-a:"Instead of picking from every word in the dictionary, Top P narrows the pool to only the most probable options. Like picking only from the top shelf."},
+a:"Like a chef who only reaches for ingredients on the top half of the pantry shelf. The lower shelves exist, but they are off-limits. Top P sets exactly how high that cutoff sits."},
 
 {n:"Emergent behavior",c:"Core",l:"Advanced",r:["PM","Dev"],
 synonyms:["emergent capabilities","emergence"],
@@ -749,7 +749,7 @@ a:"Like how water molecules have no concept of wetness, but enough of them toget
 
 {n:"Stochastic parrot",c:"Core",l:"Advanced",r:["PM","Biz"],
 related:["Hallucination","Large language model (LLM)","Alignment"],
-d:"Stochastic parrot is a term coined by researchers Bender and Gebru describing LLMs as systems that stitch together statistically plausible sequences of language without true understanding of meaning. A critical framing for thinking about LLM limitations.",
+d:"Stochastic parrot is a term coined by researchers Bender, Gebru, McMillan-Major, and Shmitchell describing LLMs as systems that stitch together statistically plausible sequences of language without true understanding of meaning. A critical framing for thinking about LLM limitations.",
 a:"Like a very sophisticated autocomplete that has read everything. It knows what words tend to follow other words, but it does not understand what those words mean the way a human does."},
 
 {n:"Transformer architecture",c:"Core",l:"Advanced",r:["Dev"],
@@ -762,7 +762,7 @@ a:"Like a reader who highlights which words in a sentence are most important for
 {n:"Few-shot prompting",c:"Prompt",l:"Basics",r:["PM","PD","CD","Dev"],
 synonyms:["few shot","in-context examples","example-based prompting"],
 related:["Zero-shot prompting","Demonstrations","Exemplar","In-context learning"],
-example:"Zero-shot: 'Classify this review as positive or negative: I loved it.' Few-shot: 'Here are two examples — Review: Great film. Label: Positive. Review: Terrible acting. Label: Negative. Now classify: I loved it.'",
+example:"Zero-shot: 'Classify this review as positive or negative: I loved it.' Few-shot: 'Here are two examples. Review: Great film. Label: Positive. Review: Terrible acting. Label: Negative. Now classify: I loved it.'",
 when:"Use few-shot examples when the output format is non-standard, when zero-shot keeps getting the structure wrong, or when you need consistent tone and style across outputs.",
 d:"Few-shot prompting is providing a small number of input and output examples inside the prompt to demonstrate the desired format or behavior before asking the model to continue the pattern.",
 a:"Like showing an intern three examples of how you format a report, then asking them to complete the next one."},
@@ -778,9 +778,9 @@ a:"Like crafting a great job posting. The clearer and more specific your require
 {n:"Role prompting",c:"Prompt",l:"Basics",r:["PM","PD","CD","Dev"],
 synonyms:["persona prompting","role play prompting"],
 related:["System prompt","Prompt engineering","Few-shot prompting"],
-example:"Ask Claude to 'review my code' and you get a general response. Ask 'You are a senior Python engineer focused on performance — review my code' and you get targeted, expert-level feedback.",
+example:"Ask Claude to 'review my code' and you get a general response. Ask 'You are a senior Python engineer focused on performance. Review my code.' and you get targeted, expert-level feedback.",
 d:"Role prompting is instructing the model to adopt a specific persona or professional role to shape its tone, vocabulary, and approach. Typically placed in the system prompt.",
-a:"Framing Claude as a senior copywriter or Python expert shifts how it speaks and what it prioritizes. Like a costume for the response."},
+a:"Like giving an actor a costume and a character brief before they go on stage. Same person underneath, but everything about how they speak, what they emphasize, and how they carry themselves shifts to fit the role."},
 
 {n:"System prompt",c:"Prompt",l:"Basics",r:["PM","Dev"],
 example:"Every Claude.ai conversation starts with a hidden system prompt.",
@@ -794,7 +794,7 @@ d:"Zero-shot prompting is asking a model to perform a task with no examples, rel
 a:"Asking someone to parallel park without showing them how. You describe it and trust their existing knowledge to fill in the rest."},
 
 {n:"Chain of thought (CoT)",c:"Prompt",l:"Intermediate",r:["PM","Dev"],
-example:"Ask: 'What is 17 times 24?' and the model might guess wrong. Add 'Think step by step' and it writes out 17 × 20 = 340, 17 × 4 = 68, 340 + 68 = 408 — and gets it right.",
+example:"Ask: 'What is 17 times 24?' and the model might guess wrong. Add 'Think step by step' and it writes out 17 × 20 = 340, 17 × 4 = 68, 340 + 68 = 408, and gets it right.",
 when:"Use CoT when your prompt involves multi-step reasoning, maths, logic, or any task where the model tends to jump to wrong answers. Add 'think step by step' and watch accuracy improve.",
 d:"Chain of thought (CoT) is a technique that instructs the model to reason step by step before giving a final answer. It significantly improves performance on math, logic, and multi-step reasoning tasks.",
 a:"Like showing your work in a math exam. Making the model write out each step forces careful reasoning rather than a blind guess."},
@@ -955,7 +955,7 @@ a:"Like a flight simulator for pilot training. You create realistic training sit
 
 /* ===================== MCP ===================== */
 {n:"Model Context Protocol (MCP)",c:"MCP",l:"Intermediate",r:["PM","Dev"],
-example:"Without MCP, you build a custom integration for every tool — one for Slack, one for Notion, one for your database. With MCP, each tool exposes a standard interface and any MCP-compatible AI host can connect to all of them immediately.",
+example:"Without MCP, you build a custom integration for every tool (one for Slack, one for Notion, one for your database). With MCP, each tool exposes a standard interface and any MCP-compatible AI host can connect to all of them immediately.",
 when:"Use MCP when you want your AI to interact with external tools, databases, or services in a standard way. If you find yourself writing a new custom integration for each tool, MCP is the better path.",
 d:"Model Context Protocol (MCP) is an open standard by Anthropic that provides a universal way for AI models to connect to external tools, data sources, and services. It uses a client-server architecture so integrations are reusable across any MCP-compatible AI host.",
 a:"Like USB-C for AI. Instead of a custom cable for every device, one standard port connects anything to anything."},
@@ -1037,9 +1037,17 @@ a:"Like digital literacy in the 2000s. A baseline competency everyone needs, not
 d:"Delegation is the first D in Anthropic's 4D Framework. Deciding which tasks are appropriate to assign to AI and which require human judgment, based on complexity, risk, and the consequences of a wrong output.",
 a:"Like deciding what to outsource versus keep in-house. AI is a powerful contractor, but some decisions need to stay with the team."},
 
+{n:"Description",c:"Fluency",l:"Basics",r:["PM","PD","CD","Biz","Dev"],
+d:"Description is the second D in Anthropic's 4D Framework. Crafting prompts that are specific, contextual, and clearly structured so the model has everything it needs to produce a useful output. The quality of your description directly shapes the quality of what comes back.",
+a:"Like writing a detailed brief before sending a contractor to site. The more precisely you describe the job, the fewer surprises when they return with the work."},
+
 {n:"Discernment",c:"Fluency",l:"Basics",r:["PM","PD","CD","Biz"],
 d:"Discernment is the third D in Anthropic's 4D Framework. Critically evaluating AI outputs for hallucinations, bias, or misalignment with your intent before using or sharing the content.",
 a:"Like fact-checking a research assistant's notes before including them in your presentation. Trust but verify."},
+
+{n:"Diligence",c:"Fluency",l:"Basics",r:["PM","PD","CD","Biz","Dev"],
+d:"Diligence is the fourth D in Anthropic's 4D Framework. Using AI responsibly and ethically by being transparent about AI-generated content, protecting sensitive data, and staying accountable for the outputs you share or act on.",
+a:"Like a professional who checks their work before signing off on it. Capability without diligence is how mistakes get shipped."},
 
 {n:"Human-AI collaboration",c:"Fluency",l:"Basics",r:["PM","PD","CD","Biz","Dev"],
 d:"Human-AI collaboration is a working model where humans provide judgment, values, and accountability while AI contributes speed, scale, and pattern recognition. The two capabilities are complementary rather than competing.",
@@ -1055,7 +1063,7 @@ d:"Alignment is the challenge of ensuring an AI system's goals, values, and beha
 a:"Like hiring someone who is technically capable but optimizes for looking busy rather than doing useful work. They follow the letter of the job description but miss the point entirely."},
 
 {n:"RLHF (reinforcement learning from human feedback)",c:"Fluency",l:"Intermediate",r:["PM","Dev"],
-example:"A base model trained on the internet would happily write harmful content — the web contains plenty of it. After RLHF, the same model declines harmful requests because human raters taught it which outputs to avoid.",
+example:"A base model trained on the internet would happily write harmful content (the web contains plenty of it). After RLHF, the same model declines harmful requests because human raters taught it which outputs to avoid.",
 d:"RLHF (reinforcement learning from human feedback) is a training technique where human raters score model outputs and those scores are used to reinforce behaviors the model should repeat. This is how Claude and similar models are aligned to be helpful and avoid harmful outputs.",
 a:"Like training a puppy with treats. When the puppy sits on command, you reward it. When it chews the furniture, you do not. Over thousands of repetitions, the desired behavior becomes the default."},
 
@@ -1064,16 +1072,12 @@ d:"Constitutional AI is Anthropic's technique for training Claude using a set of
 a:"Like a legal system embedded into training. The model learns to evaluate its own responses against core principles before producing output."},
 
 /* ===================== DEPLOY ===================== */
-{n:"Anthropic Academy",c:"Deploy",l:"Basics",r:["PM","PD","CD","Biz","Dev"],
-d:"Anthropic Academy is Anthropic's official free learning platform hosted on Skilljar. It offers structured courses on Claude, the API, MCP, Claude Code, and AI Fluency, with completion certificates available.",
-a:"Like a free university for AI. Structured curriculum and certificates from the makers of the model, at no cost."},
-
 {n:"Citation generation",c:"Deploy",l:"Intermediate",r:["PM","Dev"],
 d:"Citation generation is an API feature that attributes specific claims in a response to source passages in provided documents. Helps users trace AI-generated summaries back to the original text for verification.",
 a:"Like footnotes in an academic paper. Every claim points back to exactly where it came from so you can verify it."},
 
 {n:"Computer use",c:"Deploy",l:"Advanced",r:["PM","Dev"],
-d:"Computer use is A Claude capability that lets it control a computer by moving the cursor, clicking, typing, and reading screen content. Used to automate UI-based tasks that do not have a programmable API.",
+d:"Computer use is a Claude capability that lets it control a computer by moving the cursor, clicking, typing, and reading screen content. Used to automate UI-based tasks that do not have a programmable API.",
 a:"Like screen-sharing with Claude and having it operate the mouse and keyboard for you, navigating apps the same way a human would."},
 
 /* ===================== RISKS ===================== */
@@ -1157,7 +1161,7 @@ a:"Like a light switch that controls whether a room is visible to visitors. The 
 {n:"Jobs to be done (JTBD)",c:"Product",l:"Intermediate",r:["PM"],
 example:"People do not hire a milkshake because they want a milkshake. They hire it because they need something filling and easy to consume during a long commute. The job reveals the real competition: bananas, bagels, and boredom.",
 d:"Jobs to be done (JTBD) is a framework for understanding user motivation by framing product usage as hiring a product to accomplish a specific job. Rather than focusing on demographics, JTBD asks what progress a user is trying to make.",
-a:"People do not buy a drill. They buy a hole in the wall. The job is the outcome they want, not the tool they use to get it."},
+a:"Like someone who does not want a drill. They want a hole in the wall. The drill is just what you hire to get there. JTBD asks you to figure out the hole, not sell the drill."},
 
 {n:"Prompt as product",c:"Product",l:"Intermediate",r:["PM","CD"],
 d:"Prompt as product is the emerging practice of treating a well-crafted system prompt as a product artifact that must be designed, tested, versioned, and maintained with the same rigor as code or UI components.",
@@ -1283,7 +1287,7 @@ d:"Pain points are the specific problems, frustrations, or frictions users exper
 a:"Like reading one-star reviews. Every complaint is a user describing a moment where the product failed them. Pain points are where design work should begin."},
 
 {n:"Persona (UX)",c:"Product",l:"Basics",r:["PD","PM"],
-example:"Spotify might have a persona called Commuter Chris , 28, uses headphones on the subway, wants music that matches his mood without effort, gets frustrated by buffering.",
+example:"Spotify might have a persona called Commuter Chris, 28, uses headphones on the subway, wants music that matches his mood without effort, gets frustrated by buffering.",
 d:"Persona (UX) is a composite profile representing the characteristics, needs, goals, and frustrations of a target user segment. Personas help teams make design and product decisions that serve real people rather than abstract users.",
 a:"Like creating a recurring character in a TV show. Rather than writing for a vague audience, you write for a specific person with a name, a life, and a problem your show can help them with."},
 
@@ -1400,7 +1404,7 @@ d:"Base LLM is the raw language model trained purely on predicting the next toke
 a:"Like a very well-read person who has never been taught professional communication skills. They have enormous knowledge but will respond to your question by continuing your sentence rather than actually answering you."},
 
 {n:"Byte pair encoding (BPE)",c:"Core",l:"Advanced",r:["Dev"],
-d:"Byte pair encoding (BPE) is a tokenization algorithm that breaks words into frequently occurring subword units rather than whole words or individual characters. BPE is used by GPT models to handle rare and unknown words efficiently.",
+d:"Byte pair encoding (BPE) is a tokenization algorithm that breaks words into frequently occurring subword units rather than whole words or individual characters. BPE is used by many modern LLMs to handle rare and unknown words efficiently.",
 a:"Like shorthand notation. Instead of writing every word in full, a stenographer uses combinations of common strokes to represent frequent words and breaks unusual ones into recognizable parts."},
 
 {n:"Classification",c:"Core",l:"Intermediate",r:["Dev","PM"],
@@ -1408,7 +1412,7 @@ d:"Classification is a supervised machine learning task where a model sorts inpu
 a:"Like a postal sorting machine. Every piece of mail gets routed to exactly one bin based on its characteristics. The model learns which features predict which bin."},
 
 {n:"Deep learning",c:"Core",l:"Intermediate",r:["Dev"],
-example:"Traditional image recognition required engineers to manually define what makes a cat a cat — four legs, pointy ears, fur. Deep learning skips that step: feed it thousands of cat photos and it discovers the patterns on its own.",
+example:"Traditional image recognition required engineers to manually define what makes a cat a cat: four legs, pointy ears, fur. Deep learning skips that step: feed it thousands of cat photos and it discovers the patterns on its own.",
 d:"Deep learning is a subset of machine learning that uses neural networks with many layers to learn complex patterns from large amounts of data. Deep learning powers image recognition, speech synthesis, and most modern LLMs.",
 a:"Like a very deep organizational chart where information gets processed and refined at each level. The deeper the network, the more abstract and nuanced the patterns it can recognize."},
 
@@ -1455,7 +1459,7 @@ d:"Unsupervised learning is machine learning that finds patterns in unlabeled da
 a:"Like giving someone a box of unlabeled photos and asking them to organize the box however makes sense to them. No one tells them the categories in advance. They find the groupings themselves."},
 
 {n:"Vector database",c:"Core",l:"Intermediate",r:["Dev"],
-example:"You have 50,000 customer support tickets. A user asks a new question. The vector database finds the 10 most semantically similar past tickets — even if they use completely different words — and feeds them to Claude for context.",
+example:"You have 50,000 customer support tickets. A user asks a new question. The vector database finds the 10 most semantically similar past tickets (even if they use completely different words) and feeds them to Claude for context.",
 d:"Vector database is a specialized database optimized for storing and querying vector embeddings. Vector databases power semantic search in RAG systems by finding the embeddings nearest to a query vector rather than matching exact keywords.",
 a:"Like a library organized by the meaning of books rather than their titles. You do not search for a specific word. You describe what you are looking for and the library finds the closest matches by meaning."},
 
@@ -1572,7 +1576,7 @@ const CHAPTERS = [
 
   {id:2, emoji:"🧠", title:"How LLMs think",
    sub:"We often hear that a model \"predicts the next word.\" This chapter explains what that actually means: why context windows matter, why models sometimes make things up, and what \"token\" means every time you see it on a pricing page.",
-   terms:["Token","Tokenization","Next-token prediction","Context window","Base LLM","Instruction-tuned LLM","Inference","Multimodal","Classification","Transformer architecture","Byte pair encoding (BPE)"]},
+   terms:["Token","Tokenization","Next-token prediction","Context window","Hallucination","Knowledge cutoff","Base LLM","Instruction-tuned LLM","Inference","Multimodal","Classification","Transformer architecture","Byte pair encoding (BPE)"]},
 
   {id:3, emoji:"🎓", title:"How models are trained",
    sub:"Training is where a model's personality and knowledge comes from. This chapter explains the difference between raw training and the fine-tuning that turns a text predictor into a useful assistant. and what happens when things go sideways at scale.",
@@ -1584,7 +1588,7 @@ const CHAPTERS = [
 
   {id:5, emoji:"🎛️", title:"Model settings",
    sub:"Every AI interaction has invisible dials running underneath it. Temperature, Top P, penalties. these control whether your model is creative or precise, whether it repeats itself, whether it ever stops. Knowing them means tuning outputs, not just hoping for them.",
-   terms:["Temperature","Top P (nucleus sampling)","Frequency penalty","Presence penalty","Stop sequences","Streaming","Latency","Hallucination","Knowledge cutoff"]},
+   terms:["Temperature","Top P (nucleus sampling)","Frequency penalty","Presence penalty","Stop sequences","Streaming"]},
 
   {id:6, emoji:"⛓️", title:"Prompting techniques",
    sub:"This is where prompting goes from writing a message to designing a system. Chain-of-thought, prompt chaining, self-consistency. these are the techniques that researchers and practitioners use to get reliable, high-quality outputs from any LLM.",
@@ -1595,12 +1599,12 @@ const CHAPTERS = [
    terms:["Retrieval-augmented generation (RAG)","Embeddings","Vector database","Contextual retrieval","Prompt caching","Citation generation"]},
 
   {id:8, emoji:"🔬", title:"Advanced prompting",
-   sub:"For when standard prompting isn't enough. These techniques — tree of thoughts, ReAct, Reflexion — are used in research and production systems to push model reasoning through complex multi-step problems.",
+   sub:"For when standard prompting isn't enough. These techniques (tree of thoughts, ReAct, Reflexion) are used in research and production systems to push model reasoning through complex multi-step problems.",
    terms:["Extended thinking","Tree of thoughts (ToT)","ReAct","Reflexion","Program-aided language models (PAL)","Automatic prompt engineer (APE)","Directional stimulus prompting","Prefill","Prompt evaluation (evals)"]},
 
   {id:9, emoji:"⚡", title:"Building with the API",
    sub:"When you move from chatting with AI to building with it, you need the API. This chapter covers the developer infrastructure that powers every Claude-powered product. from the API key to tool use to benchmarking.",
-   terms:["API (application programming interface)","API key","Anthropic Console","Claude SDK","Tool use (function calling)","Batch API","Benchmark"]},
+   terms:["API (application programming interface)","API key","Anthropic Console","Claude SDK","Tool use (function calling)","Latency","Batch API","Benchmark"]},
 
   {id:10, emoji:"🔌", title:"Connecting AI to the world",
    sub:"MCP is how AI breaks out of the chat window and starts interacting with your tools, databases, and services. Think of it as a universal protocol. like USB-C, but for connecting AI to everything else.",
@@ -1616,7 +1620,7 @@ const CHAPTERS = [
 
   {id:13, emoji:"🧭", title:"Working with AI wisely",
    sub:"Technical skill matters. So does knowing how to collaborate with AI without over-relying on it, mis-attributing its outputs, or sleepwalking into ethical problems. The 4D Framework is a practical lens for every interaction.",
-   terms:["AI fluency","4D Framework","Delegation","Discernment","Human-AI collaboration","Responsible AI use","Anthropic Academy"]},
+   terms:["AI fluency","4D Framework","Delegation","Description","Discernment","Diligence","Human-AI collaboration","Responsible AI use"]},
 
   {id:14, emoji:"📋", title:"Product management",
    sub:"For PMs working on AI products. or any products in an AI world. These are the tools and frameworks for deciding what to build, in what order, and how to know if it's working. They start with vision and end at measuring activation.",
